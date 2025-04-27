@@ -1,6 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('main-content')
+<h1>haii</h1>
 
 <div class="card">
     <h5 class="card-header">Edit Product</h5>
