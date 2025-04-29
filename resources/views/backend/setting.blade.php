@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
           <label for="description" class="col-form-label">Description <span class="text-danger">*</span></label>
-          <textarea class="form-control" id="description" name="description">{{$data->description}}</textarea>
+          <textarea class="form-control" id="description" name="description">{{ strip_tags($data->description, '') }}</textarea>
           @error('description')
           <span class="text-danger">{{$message}}</span>
           @enderror

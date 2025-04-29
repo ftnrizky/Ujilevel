@@ -61,9 +61,9 @@
                                     </ul>
                                 </div>
                                 <!--/ End Single Widget -->
-                                <!-- Shop By Price -->
-                                    <div class="single-widget range">
-                                        <h3 class="title">Shop by Price</h3>
+                                <!-- belanja Sesuai harga -->
+                                    {{-- <div class="single-widget range">
+                                        <h3 class="title">Belanja berdasarkan Harga</h3>
                                         <div class="price-filter">
                                             <div class="price-filter-inner">
                                                 @php
@@ -82,11 +82,11 @@
                                             </div>
                                         </div>
 
-                                    </div>
-                                    <!--/ End Shop By Price -->
-                                <!-- Single Widget -->
+                                    </div> --}}
+                                    <!--/ End  -->
+                                <!-- psotingan baru -->
                                 <div class="single-widget recent-post">
-                                    <h3 class="title">Recent post</h3>
+                                    <h3 class="title">Postingan terbaru</h3>
                                     {{-- {{dd($recent_products)}} --}}
                                     @foreach($recent_products as $product)
                                         <!-- Single Post -->
@@ -102,7 +102,7 @@
                                                 @php
                                                     $org=($product->price-($product->price*$product->discount)/100);
                                                 @endphp
-                                                <p class="price"><del class="text-muted">${{number_format($product->price,2)}}</del>   ${{number_format($org,2)}}  </p>
+                                                <p class="price"><del class="text-muted">Rp{{number_format($product->price,2)}}</del>   Rp{{number_format($org,2)}}  </p>
 
                                             </div>
                                         </div>
@@ -111,7 +111,7 @@
                                 </div>
                                 <!--/ End Single Widget -->
                                 <!-- Single Widget -->
-                                <div class="single-widget category">
+                                {{-- <div class="single-widget category">
                                     <h3 class="title">Brands</h3>
                                     <ul class="categor-list">
                                         @php
@@ -121,7 +121,7 @@
                                             <li><a href="{{route('product-brand',$brand->slug)}}">{{$brand->title}}</a></li>
                                         @endforeach
                                     </ul>
-                                </div>
+                                </div> --}}
                                 <!--/ End Single Widget -->
                         </div>
                     </div>
@@ -192,8 +192,8 @@
                                                 @php
                                                     $after_discount=($product->price-($product->price*$product->discount)/100);
                                                 @endphp
-                                                <span>${{number_format($after_discount,2)}}</span>
-                                                <del style="padding-left:4%;">${{number_format($product->price,2)}}</del>
+                                                <span>Rp{{number_format($after_discount,2)}}</span>
+                                                <del style="padding-left:4%;">Rp{{number_format($product->price,2)}}</del>
                                             </div>
                                         </div>
                                     </div>
@@ -254,12 +254,12 @@
                                             <h2>{{$product->title}}</h2>
                                             <div class="quickview-ratting-review">
                                                 <div class="quickview-ratting-wrap">
-                                                    <div class="quickview-ratting">
-                                                        {{-- <i class="yellow fa fa-star"></i>
+                                                    <div class="quickview-ratting"> 
                                                         <i class="yellow fa fa-star"></i>
                                                         <i class="yellow fa fa-star"></i>
                                                         <i class="yellow fa fa-star"></i>
-                                                        <i class="fa fa-star"></i> --}}
+                                                        <i class="yellow fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
                                                         @php
                                                             $rate=DB::table('product_reviews')->where('product_id',$product->id)->avg('rate');
                                                             $rate_count=DB::table('product_reviews')->where('product_id',$product->id)->count();

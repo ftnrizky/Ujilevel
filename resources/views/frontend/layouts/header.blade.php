@@ -174,7 +174,7 @@
 
     .header .nav li .dropdown li .dropdown.sub-dropdown li a:hover {
         color: #fff;
-        background: #F7941D;
+        background: #E94B4B;
     }
 
     .header .nav li .dropdown.sub-dropdown li:last-child a {
@@ -206,8 +206,9 @@
         margin: 0 !important;
     }
 
+    
     .header.shop .nav li .new {
-        background: #F7941D;
+        background: #E94B4B;
         color: #fff;
         text-transform: uppercase;
         font-size: 10px;
@@ -223,7 +224,7 @@
         content: "";
         left: 4px;
         bottom: -8px;
-        border: 4px solid #F7941D;
+        border: 4px solid #E94B4B;
         border-bottom-color: transparent;
         border-left-color: transparent;
         border-right-color: transparent;
@@ -290,7 +291,7 @@
     }
 
     .header .shopping .dropdown-cart-header a:hover {
-        color: #F7941D;
+        color: #E94B4B;
     }
 
     .header .shopping-list li {
@@ -356,7 +357,7 @@
     }
 
     .header .shopping-list h4 a:hover {
-        color: #F7941D;
+        color: #E94B4B;
     }
 
     .header .shopping-item .bottom {
@@ -395,7 +396,7 @@
     }
 
     .header .shopping-item .bottom .btn:hover {
-        background: #F7941D;
+        background: #E94B4B;
         color: #fff;
     }
 
@@ -469,7 +470,7 @@
     }
 
     .header.shop .nice-select .list li:hover {
-        background: #F7941D;
+        background: #E94B4B;
         color: #fff;
     }
 
@@ -511,7 +512,7 @@
 
     .header.shop .search-bar .btnn:hover {
         color: #fff;
-        background: #F7941D;
+        background: #E94B4B;
     }
 
     /* Middle Inner */
@@ -525,7 +526,7 @@
     }
 
     .header.shop .header-inner {
-        background: #8d8d8d;
+        background: #e1e1da;
     }
 
     /* Account Icon Styling in Middle Inner - Enhanced */
@@ -556,14 +557,14 @@
     }
 
     .header .right-bar .sinlge-bar .single-icon:hover {
-        color: #F7941D;
+        color: #E94B4B;
     }
 
     .header .right-bar .sinlge-bar .single-icon .total-count {
         position: absolute;
         top: -7px;
         right: -8px;
-        background: #f6931d;
+        background: #E94B4B;
         width: 18px;
         height: 18px;
         line-height: 18px;
@@ -638,26 +639,26 @@
 
     /* Login Button */
     .header .right-bar .sinlge-bar.shopping .btn-primary {
-        background: #F7941D;
-        border-color: #F7941D;
+        background: #E94B4B;
+        border-color: #E94B4B;
         color: #fff;
     }
 
     .header .right-bar .sinlge-bar.shopping .btn-primary:hover {
-        background: #e07c07;
-        border-color: #e07c07;
+        background: #E94B4B;
+        border-color: #E94B4B;
         transform: translateY(-2px);
     }
 
     /* Register Button */
     .header .right-bar .sinlge-bar.shopping .btn-outline-primary {
-        color: #F7941D;
-        border-color: #F7941D;
+        color: #E94B4B;
+        border-color: #E94B4B;
         background: transparent;
     }
 
     .header .right-bar .sinlge-bar.shopping .btn-outline-primary:hover {
-        background: #F7941D;
+        background: #E94B4B;
         color: #fff;
         transform: translateY(-2px);
     }
@@ -672,7 +673,7 @@
     }
 
     .header .search-top a:hover {
-        color: #F7941D;
+        color: #E94B4B;
     }
 
     .header .search-form {
@@ -791,7 +792,7 @@
         left: 50%;
         width: 0;
         height: 2px;
-        background: #F7941D;
+        background: #E94B4B;
         transition: all 0.3s ease;
         transform: translateX(-50%);
     }
@@ -812,12 +813,12 @@
     }
 
     .header.sticky .header-inner .nav li:hover a {
-        color: #F7941D;
+        color: #E94B4B;
         /* Hover berubah jadi warna oranye */
     }
 
     .header.sticky.v2 .header-inner .nav li:hover a {
-        color: #F7941D;
+        color: #E94B4B;
     }
 
     .header.sticky .header-inner .nav li .dropdown li a {
@@ -829,11 +830,11 @@
     }
 
     .header.sticky .header-inner .nav li .dropdown li a:hover {
-        color: #F7941D;
+        color: #E94B4B;
     }
 
     .header.sticky .header-inner .nav li.active a {
-        color: #F7941D;
+        color: #E94B4B;
     }
 
     /* Sticky Header Background */
@@ -979,8 +980,7 @@
                                             <li class="{{ Request::path() == 'about-us' ? 'active' : '' }}"><a
                                                     href="{{ route('about-us') }}">About Us</a></li>
                                             <li class="@if (Request::path() == 'product-grids' || Request::path() == 'product-lists') active @endif"><a
-                                                    href="{{ route('product-grids') }}">Products</a><span
-                                                    class="new">New</span></li>
+                                                    href="{{ route('product-grids') }}">Products</a></li>
                                             {{ Helper::getHeaderCategory() }}
                                             <li class="{{ Request::path() == 'blog' ? 'active' : '' }}"><a
                                                     href="{{ route('blog') }}">Blog</a></li>

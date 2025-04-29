@@ -2,8 +2,7 @@
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; <a href="https://github.com/Prajwal100" target="_blank">Prajwal R.</a> {{date('Y')}}</span>
+          <div class="copyright text-center my-auto"><p class="copyright">© 2025 STREET STRAIDERS. All Rights Reserved</p>
           </div>
         </div>
       </footer>
