@@ -199,7 +199,6 @@
 
         if (newVal !== currentVal) {
             input.val(newVal);
-
             $.ajax({
                 url: '{{ route("cart.update") }}',
                 method: 'POST',

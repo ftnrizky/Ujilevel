@@ -247,4 +247,18 @@
     } else {}
   })
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkbox = document.getElementById('preOrder');
+    const estimasiField = document.getElementById('estimasiField');
+
+    function toggleEstimasi() {
+      estimasiField.style.display = checkbox.checked ? 'block' : 'none';
+    }
+
+    checkbox.addEventListener('change', toggleEstimasi);
+    toggleEstimasi();
+  });
+</script>
 @endpush

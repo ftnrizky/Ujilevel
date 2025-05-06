@@ -21,7 +21,6 @@ class ProductController extends Controller
     public function productByCategory(Request $request, $slug)
     {
         $category = Category::getProductByCat($slug);
-
         // if(!$category) {
         //     return redirect()->back()->with('error', 'Kategori tidak ada');
         // }
