@@ -44,6 +44,9 @@
                             <tr data-id="{{ $cart->id }}" data-price="{{ $cart->price }}">
                                 <td class="image">
                                     <img src="{{ $photo[0] }}" alt="{{ $cart->product['title'] }}" style="width:100px">
+                                    @if($cart->product->is_preOrder)
+                                        <span class="badge badge-danger">Pre Order</span>
+                                    @endif
                                 </td>
                                 <td class="product-des">
                                     <p class="product-name">

@@ -83,12 +83,16 @@
                             @endphp
                             @if($categories)
                             <button class="btn" style="background:black" data-filter="*">
-                                Semua Produk
+                                <a href="{{route('product-grids')}}" class="text-white">
+                                    Semua Produk
+                                </a>
                             </button>
                             @foreach($categories as $key=>$cat)
 
                             <button class="btn" style="background:none;color:black;" data-filter=".{{$cat->id}}">
-                                {{$cat->title}}
+                                <a href="{{route('product-cat',$cat->slug)}}">
+                                    {{$cat->title}}
+                                </a>
                             </button>
                             @endforeach
                             @endif
