@@ -6,27 +6,93 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
-
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Existing admin methods remain the same
     public function index()
     {
         $products = Product::getAllProduct();
         return view('backend.product.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Add these new methods for frontend category filtering
+    public function productByCategory(Request $request, $slug)
+    {
+        $category = Category::getProductByCat($slug);
+
+        // if(!$category) {
+        //     return redirect()->back()->with('error', 'Kategori tidak ada');
+        // }
+
+        $products = $category->products()->where('status', 'active');
+
+        // Apply price filter if exists
+        if ($request->price) {
+            $price = explode('-', $request->price);
+            $products->whereBetween('price', $price);
+        }
+
+        // Apply sorting
+        if ($request->sort) {
+            $sort = explode('-', $request->sort);
+            $products = $products->orderBy($sort[0], $sort[1]);
+        } else {
+            $products = $products->orderBy('id', 'DESC');
+        }
+
+        $products = $products->paginate(12);
+        $recent_products = Product::where('status', 'active')
+            ->orderBy('id', 'DESC')
+            ->limit(3)
+            ->get();
+
+        return view('frontend.pages.product-grids', [
+            'products' => $products,
+            'recent_products' => $recent_products,
+            'category' => $category
+        ]);
+    }
+
+    public function productBySubCategory(Request $request, $slug, $sub_slug)
+    {
+        $category = Category::getProductBySubCat($sub_slug);
+
+        if (!$category) {
+            return redirect()->back()->with('error', 'Subcategory not found');
+        }
+
+        $products = $category->sub_products()->where('status', 'active');
+
+        // Apply price filter if exists
+        if ($request->price) {
+            $price = explode('-', $request->price);
+            $products->whereBetween('price', $price);
+        }
+
+        // Apply sorting
+        if ($request->sort) {
+            $sort = explode('-', $request->sort);
+            $products = $products->orderBy($sort[0], $sort[1]);
+        } else {
+            $products = $products->orderBy('id', 'DESC');
+        }
+
+        $products = $products->paginate(12);
+        $recent_products = Product::where('status', 'active')
+            ->orderBy('id', 'DESC')
+            ->limit(3)
+            ->get();
+
+        return view('frontend.pages.product-grids', [
+            'products' => $products,
+            'recent_products' => $recent_products,
+            'category' => $category
+        ]);
+    }
+
+    // Remaining existing methods...
     public function create()
     {
         $brands = Brand::get();
@@ -34,12 +100,6 @@ class ProductController extends Controller
         return view('backend.product.create', compact('categories', 'brands'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -57,11 +117,14 @@ class ProductController extends Controller
             'condition' => 'required|in:default,new,hot',
             'price' => 'required|numeric',
             'discount' => 'nullable|numeric',
+            'is_preOrder' => 'nullable',
+            'estimated_days' => 'nullable|integer|min:1|required_if:is_preOrder,1',
         ]);
 
         $slug = generateUniqueSlug($request->title, Product::class);
         $validatedData['slug'] = $slug;
         $validatedData['is_featured'] = $request->input('is_featured', 0);
+        $validatedData['is_preOrder'] = $request->input('is_preOrder', 0);
 
         if ($request->has('size')) {
             $validatedData['size'] = implode(',', $request->input('size'));
@@ -81,23 +144,6 @@ class ProductController extends Controller
         );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        // Implement if needed
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $brands = Brand::get();
@@ -108,13 +154,6 @@ class ProductController extends Controller
         return view('backend.product.edit', compact('product', 'brands', 'categories', 'items'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -134,9 +173,12 @@ class ProductController extends Controller
             'condition' => 'required|in:default,new,hot',
             'price' => 'required|numeric',
             'discount' => 'nullable|numeric',
+            'is_preOrder' => 'nullable',
+            'estimated_days' => 'nullable|integer|min:1|required_if:is_preOrder,1',
         ]);
 
         $validatedData['is_featured'] = $request->input('is_featured', 0);
+        $validatedData['is_preOrder'] = $request->input('is_preOrder', 0);
 
         if ($request->has('size')) {
             $validatedData['size'] = implode(',', $request->input('size'));
@@ -156,12 +198,6 @@ class ProductController extends Controller
         );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $product = Product::findOrFail($id);

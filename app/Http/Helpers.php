@@ -9,6 +9,8 @@ use App\Models\Wishlist;
 use App\Models\Shipping;
 use App\Models\Cart;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Auth;
 
 // use Auth;
 class Helper
@@ -125,16 +127,23 @@ class Helper
         }
     }
     // Wishlist Count
-    public static function wishlistCount($user_id = '')
-    {
-
-        if (Auth::check()) {
-            if ($user_id == "") $user_id = auth()->user()->id;
-            return Wishlist::where('user_id', $user_id)->where('cart_id', null)->sum('quantity');
-        } else {
+        public static function wishlistCount($user_id = '')
+        {
+            try {
+                if (Auth::check()) {
+                    if ($user_id == "") {
+                        $user_id = auth()->user()->id;
+                    }
+                    
+                    return Wishlist::where('user_id', $user_id)
+                                ->whereNull('cart_id')  // Changed from where('cart_id', null)
+                                ->count();  // Changed from sum('quantity')
+                }
+            } catch (\Exception $e) {
+                \Log::error('Wishlist count error: ' . $e->getMessage());
+            }
             return 0;
         }
-    }
     public static function getAllProductFromWishlist($user_id = '')
     {
         if (Auth::check()) {

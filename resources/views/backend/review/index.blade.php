@@ -19,10 +19,10 @@
             <tr>
               <th>S.N.</th>
               <th>Review By</th>
-              <th>Product Title</th>
+              <th>Title Produk</th>
               <th>Review</th>
-              <th>Rate</th>
-              <th>Date</th>
+              <th>Rating</th>
+              <th>Tanggal</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -31,10 +31,10 @@
             <tr>
               <th>S.N.</th>
               <th>Review By</th>
-              <th>Product Title</th>
+              <th>Title Produk</th>
               <th>Review</th>
-              <th>Rate</th>
-              <th>Date</th>
+              <th>Rating</th>
+              <th>Tanggal</th>
               <th>Status</th>
               <th>Action</th>
               </tr>

@@ -19,35 +19,39 @@
           <thead>
             <tr>
               <th>S.N.</th>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Is Featured</th>
-              <th>Price</th>
-              <th>Discount</th>
-              <th>Size</th>
-              <th>Condition</th>
-              <th>Brand</th>
-              <th>Stock</th>
-              <th>Photo</th>
+              <th>Judul</th>
+              <th>Kategori</th>
+              <th>tampilan</th>
+              <th>Harga</th>
+              <th>Diskon</th>
+              <th>Ukuran</th>
+              <th>Kondisi</th>
+              <th>Merek</th>
+              <th>Stok</th>
+              <th>Foto</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>pre-order</th>
+              <th>estimated_days (pre order)</th>
+              <th>Tindakan</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th>S.N.</th>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Is Featured</th>
-              <th>Price</th>
-              <th>Discount</th>
-              <th>Size</th>
-              <th>Condition</th>
-              <th>Brand</th>
-              <th>Stock</th>
-              <th>Photo</th>
+              <th>Judul</th>
+              <th>Kategori</th>
+              <th>tampilan</th>
+              <th>Harga</th>
+              <th>Diskon</th>
+              <th>Ukuran</th>
+              <th>Kondisi</th>
+              <th>Merek</th>
+              <th>Stok</th>
+              <th>Foto</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>pre-order</th>
+              <th>estimated_days (pre order)</th>
+              <th>Tindakan</th>
             </tr>
           </tfoot>
           <tbody>
@@ -67,11 +71,11 @@
                       </sub>
                     </td>
                     <td>{{(($product->is_featured==1)? 'Yes': 'No')}}</td>
-                    <td>Rs. {{$product->price}} /-</td>
+                    <td>RP {{$product->price}} /-</td>
                     <td>  {{$product->discount}}% OFF</td>
                     <td>{{$product->size}}</td>
                     <td>{{$product->condition}}</td>
-                    <td> {{ucfirst($product->brand->title)}}</td>
+                    <td>{{ $product->brand ? ucfirst($product->brand->title) : 'No Brand' }}</td>
                     <td>
                       @if($product->stock>0)
                       <span class="badge badge-primary">{{$product->stock}}</span>
@@ -96,6 +100,20 @@
                         @else
                             <span class="badge badge-warning">{{$product->status}}</span>
                         @endif
+                    </td>
+                    <td>
+                    @if($product->is_preOrder==true)
+                            <span class="badge badge-primary">true</span>
+                        @else
+                            <span class="badge badge-danger">false</span>
+                        @endif  
+                    </td>
+                    <td>
+                      @if($product->estimated_days)
+                      {{$product->estimated_days}}
+                      @else
+                      -
+                      @endif
                     </td>
                     <td>
                         <a href="{{route('product.edit',$product->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
@@ -147,7 +165,7 @@
   <script>
 
       $('#product-dataTable').DataTable( {
-        "scrollX": false
+        "scrollX": false,
             "columnDefs":[
                 {
                     "orderable":false,

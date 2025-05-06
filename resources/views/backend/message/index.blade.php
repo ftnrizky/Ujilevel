@@ -13,7 +13,7 @@
       <thead>
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">Name</th>
+          <th scope="col">Nama</th>
           <th scope="col">Subject</th>
           <th scope="col">Date</th>
           <th scope="col">Action</th>
@@ -44,7 +44,7 @@
       {{$messages->links()}}
     </nav>
     @else
-      <h2>Messages Empty!</h2>
+      <h2>Pesan Kosong!</h2>
     @endif
   </div>
 </div>
@@ -102,8 +102,8 @@
             // alert(dataID);
             e.preventDefault();
             swal({
-                  title: "Are you sure?",
-                  text: "Once deleted, you will not be able to recover this data!",
+                  title: "Kamu Yakin?",
+                  text: "Setelah dihapus, Anda tidak akan dapat memulihkan data ini!",
                   icon: "warning",
                   buttons: true,
                   dangerMode: true,
@@ -112,7 +112,7 @@
                   if (willDelete) {
                     form.submit();
                   } else {
-                      swal("Your data is safe!");
+                      swal("Data Anda aman!");
                   }
               });
         })

@@ -24,14 +24,14 @@
     <!-- Start Checkout -->
     <section class="shop checkout section">
         <div class="container">
-                <form class="form" method="POST" action="{{route('cart.order')}}">
+            <form class="form" method="POST" action="{{ route('cart.order') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row"> 
 
                         <div class="col-lg-8 col-12">
                             <div class="checkout-form">
-                                <h2>Make Your Checkout Here</h2>
-                                <p>Please register in order to checkout more quickly</p>
+                                <h2>Lakukan Pembayaran Anda di Sini</h2>
+                                <p>Harap Untuk Memasukan Biodata Diri</p>
                                 <!-- Form -->
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-12">
@@ -74,91 +74,89 @@
                                         <div class="form-group">
                                             <label>Kota<span>*</span></label>
                                             <select name="country" id="country">
-                                                <option value="AF">Jakarta</option>
-                                                <option value="AX">Surabaya</option>
-                                                <option value="AL">Bandung</option>
-                                                <option value="DZ">Medan</option>
-                                                <option value="AS">Bekasi</option>
-                                                <option value="AD">Depok</option>
-                                                <option value="AO">Semarang</option>
-                                                <option value="AI">Tangerang</option>
-                                                <option value="AQ">Palembang</option>
-                                                <option value="AG">Makassar</option>
-                                                <option value="AR">Bogor</option>
-                                                <option value="AM">Malang</option>
-                                                <option value="AW">Batam</option>
-                                                <option value="AU">Pekanbaru</option>
-                                                <option value="AT">Yogyakarta</option>
-                                                <option value="AZ">Denpasar</option>
-                                                <option value="BS">Padang</option>
-                                                <option value="BH">Samarinda</option>
-                                                <option value="BD">Tasikmalaya</option>
-                                                <option value="BB">Pontianak</option>
-                                                <option value="BY">Balikpapan</option>
-                                                <option value="BE">Banjarmasin</option>
-                                                <option value="BZ">Manado</option>
-                                                <option value="BJ">Cimahi</option>
-                                                <option value="BM">Kupang</option>
-                                                <option value="BT">Cirebon</option>
-                                                <option value="BO">Mataram</option>
-                                                <option value="BA">Jayapura</option>
-                                                <option value="BW">Kediri</option>
-                                                <option value="BV">Ambon</option>
-                                                <option value="BR">Probolinggo</option>
-                                                <option value="IO">Padang Sidempuan</option>
-                                                <option value="VG">Binjai</option>
-                                                <option value="BN">Palu</option>
-                                                <option value="BG">Tegal</option>
-                                                <option value="BF">Kendari</option>
-                                                <option value="BI">Magelang</option>
-                                                <option value="KH">Blitar</option>
-                                                <option value="CM">Jambi</option>
-                                                <option value="CA">Serang</option>
-                                                <option value="CV">Banda Aceh</option>
-                                                <option value="KY">Pangkal Pinang</option>
-                                                <option value="CF">Palangkaraya</option>
-                                                <option value="TD">Gorontalo</option>
-                                                <option value="CL">Sukabumi</option>
-                                                <option value="CN">Salatiga</option>
-                                                <option value="CX">Pasuruan</option>
-                                                <option value="CC">Batu</option>
-                                                <option value="CO">Banjarbaru</option>
-                                                <option value="KM">Lubuklinggau</option>
-                                                <option value="CG">Ternate</option>
-                                                <option value="CD">Bau-Bau</option>
-                                                <option value="CK">Tarakan</option>
-                                                <option value="CR">Singkawang</option>
-                                                <option value="CI">Sibolga</option>
-                                                <option value="HR">Parepare</option>
-                                                <option value="CU">Pagar Alam</option>
-                                                <option value="CY">Tomohon</option>
-                                                <option value="CZ">Prabumulih</option>
-                                                <option value="DK">Bitung</option>
-                                                <option value="DJ">Langsa</option>
-                                                <option value="DM">Tual</option>
-                                                <option value="DO">Bontang</option>
-                                                <option value="EC">Metro</option>
-                                                <option value="EG">Baubau</option>
-                                                <option value="SV">Kotamobagu</option>
-                                                <option value="GQ">Lubuklinggau</option>
-                                                <option value="ER">Palopo</option>
-                                                <option value="EE">Banjar</option>
-                                                <option value="ET">Mojokerto</option>
-                                                <option value="FK">Madiun</option>
-                                                <option value="FO">Sawahlunto</option>
-                                                <option value="FJ">Bukittinggi</option>
-                                                <option value="FI">Lhokseumawe</option>
-                                                <option value="FR">Tebing Tinggi</option>
-                                                <option value="GF">Pematangsiantar</option>
-                                                <option value="PF">Tanjungbalai</option>
-                                                <option value="TF">Kota Sungai Penuh</option>
+                                                <option value="jakarta">Jakarta</option>
+                                                <option value="surabaya">Surabaya</option>
+                                                <option value="bandung">Bandung</option>
+                                                <option value="medan">Medan</option>
+                                                <option value="bekasi">Bekasi</option>
+                                                <option value="depok">Depok</option>
+                                                <option value="semarang">Semarang</option>
+                                                <option value="tangerang">Tangerang</option>
+                                                <option value="palembang">Palembang</option>
+                                                <option value="makassar">Makassar</option>
+                                                <option value="bogor">Bogor</option>
+                                                <option value="malang">Malang</option>
+                                                <option value="batam">Batam</option>
+                                                <option value="pekanbaru">Pekanbaru</option>
+                                                <option value="yogyakarta">Yogyakarta</option>
+                                                <option value="denpasar">Denpasar</option>
+                                                <option value="padang">Padang</option>
+                                                <option value="samarinda">Samarinda</option>
+                                                <option value="tasikmalaya">Tasikmalaya</option>
+                                                <option value="pontianak">Pontianak</option>
+                                                <option value="balikpapan">Balikpapan</option>
+                                                <option value="banjarmasin">Banjarmasin</option>
+                                                <option value="manado">Manado</option>
+                                                <option value="cimahi">Cimahi</option>
+                                                <option value="kupang">Kupang</option>
+                                                <option value="cirebon">Cirebon</option>
+                                                <option value="mataram">Mataram</option>
+                                                <option value="jayapura">Jayapura</option>
+                                                <option value="kediri">Kediri</option>
+                                                <option value="ambon">Ambon</option>
+                                                <option value="probolinggo">Probolinggo</option>
+                                                <option value="padangsidempuan">Padang Sidempuan</option>
+                                                <option value="binjai">Binjai</option>
+                                                <option value="palu">Palu</option>
+                                                <option value="tegal">Tegal</option>
+                                                <option value="kendari">Kendari</option>
+                                                <option value="magelang">Magelang</option>
+                                                <option value="blitar">Blitar</option>
+                                                <option value="jambi">Jambi</option>
+                                                <option value="serang">Serang</option>
+                                                <option value="bandaaceh">Banda Aceh</option>
+                                                <option value="pangkalpinang">Pangkal Pinang</option>
+                                                <option value="palangkaraya">Palangkaraya</option>
+                                                <option value="gorontalo">Gorontalo</option>
+                                                <option value="sukabumi">Sukabumi</option>
+                                                <option value="salatiga">Salatiga</option>
+                                                <option value="pasuruan">Pasuruan</option>
+                                                <option value="batu">Batu</option>
+                                                <option value="banjarbaru">Banjarbaru</option>
+                                                <option value="lubuklinggau">Lubuklinggau</option>
+                                                <option value="ternate">Ternate</option>
+                                                <option value="baubau">Bau-Bau</option>
+                                                <option value="tarakan">Tarakan</option>
+                                                <option value="singkawang">Singkawang</option>
+                                                <option value="sibolga">Sibolga</option>
+                                                <option value="parepare">Parepare</option>
+                                                <option value="pagaralam">Pagar Alam</option>
+                                                <option value="tomohon">Tomohon</option>
+                                                <option value="prabumulih">Prabumulih</option>
+                                                <option value="bitung">Bitung</option>
+                                                <option value="langsa">Langsa</option>
+                                                <option value="tual">Tual</option>
+                                                <option value="bontang">Bontang</option>
+                                                <option value="metro">Metro</option>
+                                                <option value="kotamobagu">Kotamobagu</option>
+                                                <option value="palopo">Palopo</option>
+                                                <option value="banjar">Banjar</option>
+                                                <option value="mojokerto">Mojokerto</option>
+                                                <option value="madiun">Madiun</option>
+                                                <option value="sawahlunto">Sawahlunto</option>
+                                                <option value="bukittinggi">Bukittinggi</option>
+                                                <option value="lhokseumawe">Lhokseumawe</option>
+                                                <option value="tebingtinggi">Tebing Tinggi</option>
+                                                <option value="pematangsiantar">Pematangsiantar</option>
+                                                <option value="tanjungbalai">Tanjungbalai</option>
+                                                <option value="sungaipenuh">Kota Sungai Penuh</option>
                                             </select>
                                         </div>
                                     </div>
                                     
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
-                                            <label>Alamat 1<span>*</span></label>
+                                            <label>Patokan<span>*</span></label>
                                             <input type="text" name="address1" placeholder="Masukan Alamat " value="{{old('address1')}}">
                                             @error('address1')
                                                 <span class='text-danger'>{{$message}}</span>
@@ -195,12 +193,12 @@
                                     <h2>Total Belanja</h2>
                                     <div class="content">
                                         <ul>
-										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Harga Belanja<span>${{number_format(Helper::totalCartPrice(),2)}}</span></li>
+										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Harga Belanja<span>Rp{{number_format(Helper::totalCartPrice(),2)}}</span></li>
                                             <li class="shipping">
-                                                Shipping Cost
+                                                Biaya Pengiriman
                                                 @if(count(Helper::shipping())>0 && Helper::cartCount()>0)
                                                     <select name="shipping" class="nice-select">
-                                                        <option value="">Select your address</option>
+                                                        <option value="">Pilih jasa</option>
                                                         @foreach(Helper::shipping() as $shipping)
                                                         <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: ${{$shipping->price}}</option>
                                                         @endforeach
@@ -211,7 +209,7 @@
                                             </li>
                                             
                                             @if(session('coupon'))
-                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>${{number_format(session('coupon')['value'],2)}}</span></li>
+                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">Kamu Simpan<span>${{number_format(session('coupon')['value'],2)}}</span></li>
                                             @endif
                                             @php
                                                 $total_amount=Helper::totalCartPrice();
@@ -220,9 +218,9 @@
                                                 }
                                             @endphp
                                             @if(session('coupon'))
-                                                <li class="last"  id="order_total_price">Total<span>${{number_format($total_amount,2)}}</span></li>
+                                                <li class="last"  id="order_total_price">Total<span>Rp{{number_format($total_amount,2)}}</span></li>
                                             @else
-                                                <li class="last"  id="order_total_price">Total<span>${{number_format($total_amount,2)}}</span></li>
+                                                <li class="last"  id="order_total_price">Total<span>Rp{{number_format($total_amount,2)}}</span></li>
                                             @endif
                                         </ul>
                                     </div>
@@ -230,29 +228,89 @@
                                 <!--/ End Order Widget -->
                                 <!-- Order Widget -->
                                 <div class="single-widget">
-                                    <h2>Pembayaran</h2>
+                                    <h2>Ringkasan Pesanan</h2>
                                     <div class="content">
-                                        <div class="checkbox">
-                                            {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
-                                            <form-group>
-                                                <input name="payment_method"  type="radio" value="cod"> <label> Bank BNI</label><br>
-                                            </form-group>
-                                            <div class="form-group mt-3">
-                                                <a href="{{ route('pembayaran') }}" class="btn btn-primary">Lakukan Pembayaran</a>
-                                            </div>
-                                        </div>
+                                        <ul>
+                                            @foreach(Helper::getAllProductFromCart() as $cart)
+                                            <li class="cart-item" data-quantity="{{ $cart->quantity }}" data-stock="{{ $cart->product->stock }}" data-name="{{ $cart->product->title }}">
+                                                {{ $cart->product->title }} 
+                                                <span>({{ $cart->quantity }} x Rp{{ number_format($cart->price,2) }})</span>
+                                                @if($cart->product->is_preOrder)
+                                                <p class="text-danger text-md ">Produk akan selesai dan dikirim dalam {{$cart->product->estimated_days}} Hari</p>
+                                                @endif
+                                                @if($cart->product->stock < 5)
+                                                    <small class="text-danger d-block">
+                                                        Sisa stok: {{ $cart->product->stock }}
+                                                    </small>
+                                                @endif
+                                            </li>
+                                            @endforeach
+                                        </ul>
                                     </div>
                                 </div>
                                 <!--/ End Order Widget -->
-                                <!-- Button Widget -->
-                                <div class="single-widget get-button">
-                                    <div class="content">
-                                        <div class="button">
-                                            <button type="submit" class="btn">Lanjut checkout</button>
-                                        </div>
+                                <div class="payment-container">
+                                    <div class="payment-instructions">
+                                        <h2>Petunjuk Pembayaran:</h2>
+                                        <ol>
+                                            <li>Transfer ke rekening bank di bawah ini sesuai dengan total pembayaran.</li>
+                                            <li>Gunakan ATM, Mobile Banking, atau Internet Banking untuk melakukan transfer.</li>
+                                            <li>Upload bukti transfer pada form di bawah ini.</li>
+                                            <li>Klik tombol "Lanjut Checkout" untuk menyelesaikan pesanan.</li>
+                                        </ol>
+                                        <p class="deadline">Harap selesaikan pembayaran dalam 24 jam.</p>
                                     </div>
+                                    
+                                    <form class="form" method="post" action="{{route('order.store')}}" enctype="multipart/form-data">
+                                        @csrf
+                                        
+                                        <div class="bank-details">
+                                            <div class="field">
+                                                <div class="field-label">Nama Rekening</div>
+                                                <div class="field-value">PT Stret Straidrs</div>
+                                            </div>
+                                            
+                                            <div class="field">
+                                                <div class="field-label">Nomor Rekening BNI</div>
+                                                <div class="field-value">
+                                                    2233 4455 6666 8855
+                                                    <button type="button" class="copy-btn" onclick="copyText('2233 4455 6666 8855')">Salin</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="upload-section">
+                                            <div class="field-label">Bukti Pembayaran</div>
+                                            <div class="file-upload">
+                                                <input type="file" 
+                                                       id="bukti_pembayaran" 
+                                                       name="bukti_pembayaran" 
+                                                       accept=".jpg,.jpeg,.png,.pdf"
+                                                       class="form-control @error('bukti_pembayaran') is-invalid @enderror"
+                                                       required>
+                                                <small class="text-muted">Format yang diizinkan: JPG, JPEG, PNG, PDF (Max: 10MB)</small>
+                                                @error('bukti_pembayaran')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="total-amount">
+                                            <div class="field-label">Total Jumlah: Rp{{number_format($total_amount,2)}}</div>
+                                            <input type="hidden" name="total_amount" value="{{$total_amount}}">
+                                        </div>
+                                        <!-- Button Widget -->
+                                        <div class="single-widget get-button">
+                                            <div class="content">
+                                                <div class="button">
+                                                    <button type="submit" class="btn">Lanjut checkout</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/ End Button Widget -->
+                                    </form>
                                 </div>
-                                <!--/ End Button Widget -->
+                                <!--/ End Order Widget -->
                             </div>
                         </div>
                     </div>
@@ -302,6 +360,23 @@
 		.form-select .nice-select::after {
 			top: 14px;
 		}
+        .file-upload {
+            margin: 15px 0;
+        }
+
+        .file-upload input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
 	</style>
 @endpush
 @push('scripts')
@@ -338,5 +413,29 @@
 		});
 
 	</script>
-
+    <script>
+    $(document).ready(function() {
+        // Validate before submit
+        $('form').on('submit', function(e) {
+            let hasError = false;
+            
+            // Check each cart item
+            $('.cart-item').each(function() {
+                const quantity = parseInt($(this).data('quantity'));
+                const stock = parseInt($(this).data('stock'));
+                const productName = $(this).data('name');
+                
+                if(quantity > stock) {
+                    hasError = true;
+                    toastr.error(`Stok tidak cukup untuk produk ${productName}! Tersedia: ${stock}`);
+                }
+            });
+            
+            if(hasError) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
+    </script>
 @endpush

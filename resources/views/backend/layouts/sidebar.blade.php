@@ -496,20 +496,20 @@
       <a class="nav-link" href="{{ route('file-manager') }}">
           <i><img src="{{ asset('image/asset -ujilevel/area-chart.png') }}"
             alt="" /></i>
-          <span>Media Manager</span></a>
+          <span>Media Manajer</span></a>
   </li>
 
   <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
           aria-expanded="true" aria-controls="collapseTwo">
           <i> <img src="{{ asset('image/asset -ujilevel/banner.png') }}" alt="" /></i>
-          <span>Banners</span>
+          <span>Banner</span>
       </a>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Banner Options:</h6>
-              <a class="collapse-item" href="{{ route('banner.index') }}">Banners</a>
-              <a class="collapse-item" href="{{ route('banner.create') }}">Tambah Banners</a>
+              <h6 class="collapse-header">Opsi Banner:</h6>
+              <a class="collapse-item" href="{{ route('banner.index') }}">Banner</a>
+              <a class="collapse-item" href="{{ route('banner.create') }}">Tambah Banner</a>
           </div>
       </div>
   </li>
@@ -519,12 +519,12 @@
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#categoryCollapse"
           aria-expanded="true" aria-controls="categoryCollapse">
           <i><img src="{{ asset('image/asset -ujilevel/medal.png') }}" alt=""/></i>
-          <span>Category</span>
+          <span>Kategori</span>
       </a>
       <div id="categoryCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="{{ route('category.index') }}">Category</a>
-              <a class="collapse-item" href="{{ route('category.create') }}">Tambah Category</a>
+              <a class="collapse-item" href="{{ route('category.index') }}">Kategori</a>
+              <a class="collapse-item" href="{{ route('category.create') }}">Tambah Kategori</a>
           </div>
       </div>
   </li>
@@ -535,11 +535,11 @@
           aria-expanded="true" aria-controls="brandCollapse">
           <i><img src="{{ asset('image/asset -ujilevel/table.png') }}"
             alt="" /></i>
-          <span>Brands</span>
+          <span>Brand</span>
       </a>
       <div id="brandCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="{{ route('brand.index') }}">Brands</a>
+              <a class="collapse-item" href="{{ route('brand.index') }}">Brand</a>
               <a class="collapse-item" href="{{ route('brand.create') }}">Tambah Brand</a>
           </div>
       </div>
@@ -553,12 +553,12 @@
           aria-expanded="true" aria-controls="productCollapse">
           <i><img src="{{ asset('image/asset -ujilevel/box.png') }}"
             alt="" /></i>
-          <span>Products</span>
+          <span>Produk</span>
       </a>
       <div id="productCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="{{ route('product.index') }}">Products</a>
-              <a class="collapse-item" href="{{ route('product.create') }}">Tambah Product</a>
+              <a class="collapse-item" href="{{ route('product.index') }}">Produk</a>
+              <a class="collapse-item" href="{{ route('product.create') }}">Tambah Produk</a>
           </div>
       </div>
   </li>
@@ -585,7 +585,7 @@
       <a class="nav-link" href="{{ route('order.index') }}">
           <i><img src="{{ asset('image/asset -ujilevel/medal.png') }}"
               alt="" /></i>
-          <span>Orders</span>
+          <span>Orderan</span>
       </a>
   </li>
 
@@ -602,11 +602,11 @@
       <a class="nav-link" href="{{ route('review.index') }}">
           <i><img src="{{ asset('image/asset -ujilevel/sms.png') }}"
             alt="" /></i>
-          <span>Chat Costumer</span></a>
+          <span>pesan customer</span></a>
   </li>
 
   <!-- Posts -->
-  <li class="nav-item">
+  {{-- <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postCollapse"
           aria-expanded="true" aria-controls="postCollapse">
           <i><img src="{{ asset('image/asset -ujilevel/folder.png') }}"
@@ -615,40 +615,23 @@
       </a>
       <div id="postCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Post Options:</h6>
-              <a class="collapse-item" href="{{ route('post.index') }}">Posts</a>
+              <h6 class="collapse-header">Opsi postingan:</h6>
+              <a class="collapse-item" href="{{ route('post.index') }}">Postingan</a>
               <a class="collapse-item" href="{{ route('post.create') }}">Tambah Postingan</a>
           </div>
       </div>
-  </li>
-
-  <!-- Category -->
-  <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postCategoryCollapse"
-          aria-expanded="true" aria-controls="postCategoryCollapse">
-          <i><img src="{{ asset('image/asset -ujilevel/medal.png') }}" alt=""/></i>
-          <span>Category</span>
-      </a>
-      <div id="postCategoryCollapse" class="collapse" aria-labelledby="headingPages"
-          data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Category Options:</h6>
-              <a class="collapse-item" href="{{ route('post-category.index') }}">Category</a>
-              <a class="collapse-item" href="{{ route('post-category.create') }}">Tambah Category</a>
-          </div>
-      </div>
-  </li>
+  </li> --}}
 
   <!-- Tags -->
   <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#tagCollapse"
           aria-expanded="true" aria-controls="tagCollapse">
           <i><img src="{{ asset('image/asset -ujilevel/tags.png') }}" alt=""/></i>
-          <span>Tags</span>
+          <span>Tag</span>
       </a>
       <div id="tagCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Tag Options:</h6>
+              <h6 class="collapse-header">Opsi tag:</h6>
               <a class="collapse-item" href="{{ route('post-tag.index') }}">Tag</a>
               <a class="collapse-item" href="{{ route('post-tag.create') }}">Tambah Tag</a>
           </div>
@@ -660,7 +643,7 @@
       <a class="nav-link" href="{{ route('comment.index') }}">
           <i><img src="{{ asset('image/asset -ujilevel/sms.png') }}"
               alt="" /></i>
-          <span>Comments</span>
+          <span>Komen</span>
       </a>
   </li>
 
@@ -687,7 +670,7 @@
       <a class="nav-link" href="{{ route('settings') }}">
           <i><img src="{{ asset('image/asset -ujilevel/security.png') }}"
               alt="" /></i>
-          <span>Settings</span></a>
+          <span>Pengaturan</span></a>
   </li>
 
   <!-- Sidebar Toggler (Sidebar) -->
