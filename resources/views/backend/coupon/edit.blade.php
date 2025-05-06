@@ -9,8 +9,8 @@
         @csrf 
         @method('PATCH')
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Coupon Code <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="code" placeholder="Enter Coupon Code"  value="{{$coupon->code}}" class="form-control">
+          <label for="inputTitle" class="col-form-label">Kode Coupon <span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="code" placeholder="Masukan Kode Coupon "  value="{{$coupon->code}}" class="form-control">
           @error('code')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -19,8 +19,8 @@
           <div class="form-group">
               <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
               <select name="type" class="form-control">
-                  <option value="fixed" {{(($coupon->type=='fixed') ? 'selected' : '')}}>Fixed</option>
-                  <option value="percent" {{(($coupon->type=='percent') ? 'selected' : '')}}>Percent</option>
+                  <option value="fixed" {{(($coupon->type=='fixed') ? 'selected' : '')}}>Nominal</option>
+                  <option value="percent" {{(($coupon->type=='percent') ? 'selected' : '')}}>Persen</option>
               </select>
               @error('type')
               <span class="text-danger">{{$message}}</span>
@@ -29,7 +29,7 @@
   
           <div class="form-group">
               <label for="inputTitle" class="col-form-label">Value <span class="text-danger">*</span></label>
-              <input id="inputTitle" type="number" name="value" placeholder="Enter Coupon value"  value="{{$coupon->value}}" class="form-control">
+              <input id="inputTitle" type="number" name="value" placeholder="Masukan value Coupon"  value="{{$coupon->value}}" class="form-control">
               @error('value')
               <span class="text-danger">{{$message}}</span>
               @enderror
@@ -38,15 +38,15 @@
         <div class="form-group">
           <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
           <select name="status" class="form-control">
-            <option value="active" {{(($coupon->status=='active') ? 'selected' : '')}}>Active</option>
-            <option value="inactive" {{(($coupon->status=='inactive') ? 'selected' : '')}}>Inactive</option>
+            <option value="active" {{(($coupon->status=='active') ? 'selected' : '')}}>Aktif</option>
+            <option value="inactive" {{(($coupon->status=='inactive') ? 'selected' : '')}}>Tidak Aktif</option>
           </select>
           @error('status')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
         <div class="form-group mb-3">
-           <button class="btn btn-success" type="submit">Update</button>
+           <button class="btn btn-success" type="submit">Perbarui</button>
         </div>
       </form>
     </div>
@@ -65,7 +65,7 @@
 
     $(document).ready(function() {
     $('#description').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Masukan Deskripsi Singkat",
         tabsize: 2,
         height: 150
     });

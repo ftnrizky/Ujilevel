@@ -18,27 +18,29 @@
           <thead>
             <tr>
               <th>S.N.</th>
-              <th>Order No.</th>
-              <th>Name</th>
+              <th>Nomor Pesanan</th>
+              <th>Nama</th>
               <th>Email</th>
-              <th>Quantity</th>
-              <th>Charge</th>
-              <th>Total Amount</th>
+              <th>Jumlah</th>
+              <th>Biaya</th>
+              <th>Jumlah Total</th>
+              <th>Bukti Pembayaran</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>Tindakan</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th>S.N.</th>
-              <th>Order No.</th>
-              <th>Name</th>
+              <th>Nomor Pesanan</th>
+              <th>Nama</th>
               <th>Email</th>
-              <th>Quantity</th>
-              <th>Charge</th>
-              <th>Total Amount</th>
+              <th>Jumlah</th>
+              <th>Biaya</th>
+              <th>Jumlah Total</th>
+              <th>Bukti Pembayaran</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>Tindakan</th>
               </tr>
           </tfoot>
           <tbody>
@@ -49,8 +51,18 @@
                     <td>{{$order->first_name}} {{$order->last_name}}</td>
                     <td>{{$order->email}}</td>
                     <td>{{$order->quantity}}</td>
-                    <td>${{$order->shipping->price}}</td>
+                    <td>${{ optional($order->shipping)->price ?? '0.00' }}</td>
                     <td>${{number_format($order->total_amount,2)}}</td>
+                    <td>
+                      @if ($order->bukti_pembayaran)
+                          <a href="{{ asset('storage/' . $order->bukti_pembayaran) }}" target="_blank">
+                              <img src="{{ asset('storage/' . $order->bukti_pembayaran) }}" alt="Bukti"
+                                  style="height:40px; border-radius:5px;">
+                          </a>
+                      @else
+                          <span class="text-muted">Belum ada</span>
+                      @endif
+                  </td>
                     <td>
                         @if($order->status=='new')
                           <span class="badge badge-primary">{{$order->status}}</span>
@@ -76,7 +88,7 @@
         </table>
         <span style="float:right">{{$orders->links()}}</span>
         @else
-          <h6 class="text-center">No orders found!!! Please order some products</h6>
+          <h6 class="text-center">Tidak ada pesanan yang ditemukan!!! Silakan pesan beberapa produk</h6>
         @endif
       </div>
     </div>

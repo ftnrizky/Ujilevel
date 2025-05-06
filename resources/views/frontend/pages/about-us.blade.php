@@ -11,8 +11,8 @@
                 <div class="col-12">
                     <div class="bread-inner">
                         <ul class="bread-list">
-                            <li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-                            <li class="active"><a href="blog-single.html">About Us</a></li>
+                            <li><a href="index1.html">Beranda<i class="ti-arrow-right"></i></a></li>
+                            <li class="active"><a href="blog-single.html">tentang Kami</a></li>
                         </ul>
                     </div>
                 </div>
@@ -71,7 +71,6 @@
                             @endif
                         @endforeach
                         <div class="button">
-                            <a href="{{ route('blog') }}" class="btn">Blog kami</a>
                             <a href="{{ route('contact') }}" class="btn primary">Hubungi kami</a>
                         </div>
                     </div>

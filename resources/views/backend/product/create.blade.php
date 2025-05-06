@@ -3,7 +3,7 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Tambah Product</h5>
+    <h5 class="card-header">Tambah Produk</h5>
     <div class="card-body">
       <form method="post" action="{{route('product.store')}}">
         {{csrf_field()}}
@@ -77,10 +77,13 @@
           <label for="size">Ukuran</label>
           <select name="size[]" class="form-control selectpicker"  multiple data-live-search="true">
               <option value="">--Masukan Ukuran nya--</option>
-              <option value="S">Small (S)</option>
-              <option value="M">Medium (M)</option>
-              <option value="L">Large (L)</option>
-              <option value="XL">Extra Large (XL)</option>
+              <option value="30">30</option>
+              <option value="32">32</option>
+              <option value="34">34</option>
+              <option value="36">36</option>
+              <option value="L">40</option>
+              <option value="L">42</option>
+              <option value="XL">45</option>
           </select>
         </div>
 
@@ -139,6 +142,23 @@
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
+  <!-- <div class="form-group">
+    <div class="form-check">
+      <input type="checkbox" name="preOrder" id="preOrder" class="form-check-input" value="true" {{ old('preOrder') == 'true' ? 'checked' : '' }}>
+      <label for="preOrder" class="form-check-label">Is Pre-Order <span class="text-danger">*</span></label>
+    </div>
+    @error('preOrder')
+    <span class="text-danger">{{$message}}</span>
+    @enderror
+  </div>
+
+<div class="form-group" id="estimasiField" style="display: none;">
+  <label for="estimasi" class="col-form-label">Estimasi (Hari)</label>
+  <input type="text" name="estimasi" id="estimasi" placeholder="Contoh:5 (5 hari)" class="form-control" value="{{ old('estimasi') }}">
+  @error('estimasi')
+  <span class="text-danger">{{$message}}</span>
+  @enderror
+</div> -->
         <div class="form-group mb-3">
           <button type="reset" class="btn btn-warning">Reset</button>
            <button class="btn btn-success" type="submit">Tambah</button>
@@ -221,5 +241,19 @@
     else{
     }
   })
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkbox = document.getElementById('preOrder');
+    const estimasiField = document.getElementById('estimasiField');
+
+    function toggleEstimasi() {
+      estimasiField.style.display = checkbox.checked ? 'block' : 'none';
+    }
+
+    checkbox.addEventListener('change', toggleEstimasi);
+    toggleEstimasi();
+  });
 </script>
 @endpush

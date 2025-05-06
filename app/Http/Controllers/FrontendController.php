@@ -53,6 +53,67 @@ class FrontendController extends Controller
         // dd($product_detail);
         return view('frontend.pages.product_detail')->with('product_detail',$product_detail);
     }
+    
+public function productList(Request $request)
+{
+    $products = Product::query()->where('status', 'active');
+    
+    // Filter by category
+    if ($request->category) {
+        $category = Category::findOrFail($request->category);
+        
+        if ($category->is_parent) {
+            $childCategories = $category->child_cat->pluck('id');
+            $products->where(function($query) use ($category, $childCategories) {
+                $query->whereIn('cat_id', $childCategories)
+                      ->orWhere('cat_id', $category->id);
+            });
+        } else {
+            $products->where('cat_id', $category->id);
+        }
+    }
+    
+    // Filter by price range
+    if (!empty($_GET['price'])) {
+        $price = explode('-', $_GET['price']);
+        $products->whereBetween('price', [$price[0], $price[1]]);
+    }
+    
+    // Sorting
+    if (!empty($_GET['sortBy'])) {
+        switch ($_GET['sortBy']) {
+            case 'title':
+                $products->orderBy('title', 'ASC');
+                break;
+            case 'price':
+                $products->orderBy('price', 'ASC');
+                break;
+            case 'category':
+                $products->orderBy('cat_id', 'ASC');
+                break;
+            case 'brand':
+                $products->orderBy('brand_id', 'ASC');
+                break;
+            default:
+                $products->orderBy('id', 'DESC');
+        }
+    } else {
+        $products->orderBy('id', 'DESC');
+    }
+    
+    // Pagination
+    if (!empty($_GET['show'])) {
+        $products = $products->paginate($_GET['show']);
+    } else {
+        $products = $products->paginate(9);
+    }
+    
+    // Get all categories for sidebar
+    $categories = Category::where('is_parent', 1)->with('child_cat')->get();
+    $brands = Brand::where('status', 'active')->get();
+    
+    return view('frontend.pages.product-list', compact('products', 'categories', 'brands'));
+}
 
     public function productGrids(){
         $products=Product::query();

@@ -12,20 +12,27 @@
 								<a href="index.html">  <img src="{{ asset('image/asset -ujilevel/logo.png') }}" alt="" /></a>
 							</div>
 							@php
-								$settings=DB::table('settings')->get();
+							try {
+									$settings = DB::table('settings')->get();
+								} catch (\Exception $e) {
+									$settings = collect(); // kosongkan supaya tidak error
+								}
 							@endphp
-							<p class="text">@foreach($settings as $data) {{$data->short_des}} @endforeach</p>
-							<p class="call">Ada pertanyaan? Hubungi kami 24/jam<span><a href="tel:123456789">@foreach($settings as $data) {{$data->phone}} @endforeach</a></span></p>
+							<p class="text">{{ $setting->short_des ?? 'Deskripsi belum tersedia.' }}</p>
+							<p class="call">
+								Ada pertanyaan? Hubungi kami 24/jam
+								<span><a href="tel:{{ $setting->phone ?? '08123456789' }}">{{ $setting->phone ?? '08123456789' }}</a></span>
+							</p>
 						</div>
 						<!-- End Single Widget -->
 					</div>
 					<div class="col-lg-2 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer links">
-							<h4>Information</h4>
+							<h4>Informasi</h4>
 							<ul>
-								<li><a href="{{route('about-us')}}">About Us</a></li>
-								<li><a href="{{route('contact')}}">Contact Us</a></li>
+								<li><a href="{{route('about-us')}}">Tentang Kamu</a>
+								<li><a href="{{route('contact')}}">Kontak Kami</a></li>
 							</ul>
 						</div>
 						<!-- End Single Widget -->
