@@ -307,10 +307,7 @@ Version:1.0
 	height: auto;
 	padding: 15px 22px;
 }
-#myMap {
-	height: 300px;
-	width: 100%;
-}
+
 .contact-us .single-head {
 	padding: 30px;
 	margin-top: 30px;
@@ -970,10 +967,7 @@ Version:1.0
 .contact-us .title h3 {
 	font-size: 23px;
 }
-#myMap {
-	height: 300px;
-	width: 100%;
-}
+
 .contact-us .single-head {
 	padding: 30px;
 	margin-top: 30px;
@@ -1435,6 +1429,7 @@ Version:1.0
 	font-size: 24px;
 	margin-bottom: 8px;
 	padding-bottom: 12px;
+	color: #E94B4B;
 }
 .shop.login .login-form p {
 	font-size: 13px;

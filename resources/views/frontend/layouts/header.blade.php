@@ -1,15 +1,8 @@
 <style>
-    /* Logo */
-    /* Logo Link (gambar + text sejajar) */
     .logo-link {
         display: flex;
-        /* Flex supaya gambar dan teks sejajar horizontal */
-        align-items: center;
-        /* Tengah-tengah vertikal */
         text-decoration: none;
-        /* Hilangin underline link */
         gap: 10px;
-        /* Jarak antara logo dan teks */
     }
 
     /* Logo Image */
@@ -18,7 +11,12 @@
         height: auto;
         object-fit: contain;
         padding: 10px;
-
+        margin-top: -15px;
+        /* Added negative margin to move up */
+        position: relative;
+        /* Added position relative */
+        top: -7px;
+        /* Move up by 5px */
     }
 
     .logo-img:hover {
@@ -32,7 +30,6 @@
         font-size: 22px;
         font-weight: bold;
         color: #333;
-        /* Sesuaikan warna */
     }
 
     /* Responsive setting */
@@ -118,7 +115,7 @@
 
     .header .nav li .dropdown li:hover a {
         color: #fff;
-        background: #1d86f7;
+        background: #d5d0ad;
     }
 
     .header .nav li .dropdown li a:hover {
@@ -206,7 +203,7 @@
         margin: 0 !important;
     }
 
-    
+
     .header.shop .nav li .new {
         background: #E94B4B;
         color: #fff;
@@ -437,12 +434,11 @@
         clear: initial;
         margin: 0;
         height: 48px;
-        width: 150px;
+        width: 160px;
         border: none;
         text-align: center;
         background: transparent;
         text-transform: capitalize;
-        padding: 0 0 0 20px;
         border-right: 1px solid #eee;
         line-height: 50px;
         font-size: 14px;
@@ -536,7 +532,6 @@
         height: 100%;
         padding: 0;
         margin: 0;
-        top: 20px;
         float: right;
         position: relative;
     }
@@ -622,11 +617,124 @@
         margin-left: 15px;
     }
 
-    /* Login/Register Button Styling */
+    /* Login/Register Button Container Styling */
     .header .right-bar .sinlge-bar.shopping {
         display: flex;
         align-items: center;
         gap: 10px;
+        margin-left: auto; /* Push to right */
+        padding-right: 15px; /* Add some padding from right edge */
+    }
+
+    /* Common Button Styles */
+    .auth-buttons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .auth-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 90px;
+        height: 36px;
+    }
+
+    /* Login Button */
+    .auth-btn.login {
+        background: #E94B4B;
+        border: 1px solid #E94B4B;
+        color: #fff;
+    }
+
+    .auth-btn.login:hover {
+        background: #d63434;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(233, 75, 75, 0.3);
+    }
+
+    /* Register Button */
+    .auth-btn.register {
+        background: transparent;
+        border: 1px solid #E94B4B;
+        color: #E94B4B;
+    }
+
+    .auth-btn.register:hover {
+        background: rgba(233, 75, 75, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(233, 75, 75, 0.15);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .auth-buttons {
+            gap: 6px;
+        }
+        
+        .auth-btn {
+            padding: 6px 12px;
+            font-size: 13px;
+            min-width: 80px;
+            height: 32px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .header .right-bar .sinlge-bar.shopping {
+            padding-right: 10px;
+        }
+        
+        .auth-buttons {
+            gap: 4px;
+        }
+        
+        .auth-btn {
+            padding: 5px 10px;
+            font-size: 12px;
+            min-width: 70px;
+            height: 30px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .auth-buttons {
+            flex-direction: column;
+            gap: 5px;
+            position: absolute;
+            right: 15px;
+            top: 100%;
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .header .right-bar .sinlge-bar.shopping:hover .auth-buttons {
+            display: flex;
+        }
+        
+        .auth-btn {
+            width: 100%;
+            min-width: 100px;
+        }
+    }
+
+    /* Login/Register Button Styling */
+    .header .right-bar .sinlge-bar.shopping {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        gap: 0px;
     }
 
     .header .right-bar .sinlge-bar.shopping .btn {
@@ -804,8 +912,8 @@
 
     /* Sticky Header States */
     .header.sticky .header-inner .nav li a {
-        color: #ffffff;
-        /* Warna abu-abu saat sticky */
+        color: #000000;
+       
     }
 
     .header.sticky.v3 .header-inner .nav li a {
@@ -876,10 +984,14 @@
 <header class="header shop">
     <div class="logo">
         @php
-            $settings = DB::table('settings')->get();
+            try {
+                $settings = DB::table('settings')->get();
+            } catch (\Exception $e) {
+                $settings = collect(); // jadikan kosong agar tidak error
+            }
         @endphp
         <a href="{{ route('home') }}" class="logo-link">
-            <img src="@foreach ($settings as $data) {{ $data->logo }} @endforeach" alt="logo" class="logo-img">
+            <img src="{{ $settings->first()->logo ?? asset('default-logo.png') }}" alt="logo" class="logo-img">
             <h3 class="logo-text">Stret Stradiers</h3>
         </a>
 
@@ -896,10 +1008,12 @@
                     <!-- Search Bar -->
                     <div class="search-bar-top">
                         <div class="search-bar">
-                            <select>
-                                <option>All Category</option>
+                            <select id="category-select">
+                                <option value="">Semua Kategori</option>
                                 @foreach (Helper::getAllCategory() as $cat)
-                                    <option>{{ $cat->title }}</option>
+                                    <option value="{{ $cat->id }}" {{ (request()->category == $cat->id) ? 'selected' : '' }}>
+                                        {{ $cat->title }}
+                                    </option>
                                 @endforeach
                             </select>
                             <form method="POST" action="{{ route('product.search') }}">
@@ -914,46 +1028,65 @@
 
                 <div class="col-lg-2 col-md-3 col-6">
                     <div class="right-bar d-flex justify-content-end align-items-center">
-                        <!-- Wishlist -->
-                        <div class="sinlge-bar shopping me-2">
-                            <a href="{{ route('wishlist') }}" class="single-icon">
-                                <i class="fa fa-heart-o"></i>
-                                <span class="total-count">{{ Helper::wishlistCount() }}</span>
-                            </a>
-                        </div>
+                        @auth
+                            <!-- Wishlist (only show when logged in) -->
+                            <div class="sinlge-bar shopping me-2">
+                                <a href="{{ route('wishlist') }}" class="single-icon">
+                                    <i class="fa-regular fa-heart"></i>
+                                    @if (Helper::wishlistCount() > 0)
+                                        <span class="total-count">{{ Helper::wishlistCount() }}</span>
+                                    @endif
+                                </a>
+                            </div>
 
-                        <!-- Cart -->
-                        <div class="sinlge-bar shopping me-2">
-                            <a href="{{ route('cart') }}" class="single-icon">
-                                <i class="ti-bag"></i>
-                                <span class="total-count">{{ Helper::cartCount() }}</span>
-                            </a>
-                        </div>
+                            <!-- Cart (only show when logged in) -->
+                            <div class="sinlge-bar shopping me-2">
+                                <a href="{{ route('cart') }}" class="single-icon">
+                                    <i class="ti-bag"></i>
+                                    @if (Helper::cartCount() > 0)
+                                        <span class="total-count">{{ Helper::cartCount() }}</span>
+                                    @endif
+                                </a>
+                            </div>
+                        @endauth
 
                         <!-- Account Dropdown -->
                         @auth
                             <!-- Show account icon and dropdown when logged in -->
                             <div class="sinlge-bar shopping position-relative">
                                 <a href="javascript:void(0);" class="single-icon" id="accountDropdownToggle">
-                                    <i><img src="{{ asset('image/asset -ujilevel/user.png') }}" alt="Account" /></i>
+                                    <i class="fa-regular fa-user"></i>
                                 </a>
                                 <div id="accountDropdown" class="account-dropdown"
                                     style="display: none; position: absolute; right: 0; background: white; box-shadow: 0px 2px 10px rgba(0,0,0,0.15); min-width: 150px; z-index: 100;">
                                     <ul class="list-unstyled m-0 p-2">
-                                        <li><a href="{{ route('order.track') }}">Track Order</a></li>
+                                        <li><a href="{{ route('order.track') }}" class="dropdown-item">Track Order</a></li>
                                         @if (Auth::user()->role == 'admin')
-                                            <li><a href="{{ route('admin') }}" target="_blank">Dashboard</a></li>
+                                            <li><a href="{{ route('admin') }}" target="_blank"
+                                                    class="dropdown-item">Dashboard</a></li>
                                         @else
-                                            <li><a href="{{ route('user') }}" target="_blank">Dashboard</a></li>
+                                            <li><a href="{{ route('user') }}" target="_blank"
+                                                    class="dropdown-item">Profile</a></li>
                                         @endif
-                                        <li><a href="{{ route('user.logout') }}">Logout</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a href="{{ route('user.logout') }}"
+                                                class="dropdown-item text-danger">Logout</a></li>
                                     </ul>
                                 </div>
                             </div>
                         @else
+                            <!-- Show login/register buttons when logged out -->
                             <div class="sinlge-bar shopping">
-                                <a href="{{ route('login.form') }}" class="btn btn-sm btn-primary me-2">Login</a>
-                                <a href="{{ route('register.form') }}" class="btn btn-sm btn-outline-primary">Register</a>
+                                <div class="auth-buttons">
+                                    <a href="{{ route('login.form') }}" class="auth-btn login">
+                                        <i class="fas fa-sign-in-alt me-1"></i>Login
+                                    </a>
+                                    <a href="{{ route('register.form') }}" class="auth-btn register">
+                                        <i class="fas fa-user-plus me-1"></i>Register
+                                    </a>
+                                </div>
                             </div>
                         @endauth
 
@@ -976,17 +1109,17 @@
                                     <div class="nav-inner">
                                         <ul class="nav main-menu menu navbar-nav">
                                             <li class="{{ Request::path() == 'home' ? 'active' : '' }}"><a
-                                                    href="{{ route('home') }}">Home</a></li>
+                                                    href="{{ route('home') }}">Beranda</a></li>
                                             <li class="{{ Request::path() == 'about-us' ? 'active' : '' }}"><a
-                                                    href="{{ route('about-us') }}">About Us</a></li>
+                                                    href="{{ route('about-us') }}">Tentang Kami</a></li>
+                                            <li class="{{ Request::path() == 'chatwithadmin' ? 'active' : '' }}"><a
+                                                    href="">Chat With Admin</a></li>
                                             <li class="@if (Request::path() == 'product-grids' || Request::path() == 'product-lists') active @endif"><a
-                                                    href="{{ route('product-grids') }}">Products</a></li>
+                                                    href="{{ route('product-grids') }}">Produk</a></li>
                                             {{ Helper::getHeaderCategory() }}
-                                            <li class="{{ Request::path() == 'blog' ? 'active' : '' }}"><a
-                                                    href="{{ route('blog') }}">Blog</a></li>
 
                                             <li class="{{ Request::path() == 'contact' ? 'active' : '' }}"><a
-                                                    href="{{ route('contact') }}">Contact Us</a></li>
+                                                    href="{{ route('contact') }}">Kontak</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -1000,6 +1133,8 @@
     </div>
     <!--/ End Header Inner -->
 </header>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 <script>
     const accountToggle = document.getElementById('accountDropdownToggle');
     const accountDropdown = document.getElementById('accountDropdown');
@@ -1014,4 +1149,39 @@
             accountDropdown.style.display = 'none';
         }
     });
+</script>
+<script>
+    $(document).ready(function() {
+    // Tambahkan handler event change ke dropdown kategori
+    $('#category-select').on('change', function() {
+        const categoryId = $(this).val();
+        
+        // Jika kategori dipilih, redirect ke halaman kategori
+        if(categoryId) {
+            // Cari slug kategori dari tautan kategori yang sudah ada
+            let categorySlug = '';
+            
+            // Telusuri semua tautan kategori untuk menemukan yang cocok dengan ID
+            $('.categor-list a').each(function() {
+                const href = $(this).attr('href');
+                if(href.includes('product-cat/') && $(this).data('id') == categoryId) {
+                    categorySlug = href;
+                    return false; // Hentikan loop
+                }
+            });
+            
+            // Jika ditemukan, redirect ke halaman kategori
+            if(categorySlug) {
+                window.location.href = categorySlug;
+            } else {
+                // Fallback - buat URL dengan ID jika slug tidak ditemukan
+                window.location.href = '/shop?category=' + categoryId;
+            }
+        } else {
+            // Jika "Semua Kategori" dipilih, pergi ke halaman shop tanpa filter
+            window.location.href = '/shop';
+        }
+    });
+});
+
 </script>

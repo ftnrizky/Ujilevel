@@ -15,12 +15,14 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->role=='admin'){
+        if(!auth()->check()) {
+            return redirect()->route('login');
+        }
+        
+        if(auth()->user()->role == 'admin') {
             return $next($request);
         }
-        else{
-            request()->session()->flash('error','You do not have any permission to access this page');
-            return redirect()->route($request->user()->role);
-        }
+        
+        return redirect()->route('home')->with('error','You do not have permission to access this page');
     }
 }

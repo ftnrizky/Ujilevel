@@ -73,13 +73,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="section-title">
-                        <h2>Sedang Tren</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
                     <div class="product-info">
                         <div class="nav-main">
                             <!-- Tab Nav -->
@@ -89,12 +82,12 @@
                                     // dd($categories);
                                 @endphp
                                 @if($categories)
-                                <button class="btn" style="background:black"data-filter="*">
+                                <button class="btn" style="background:rgb(150, 134, 134)"data-filter="*">
                                 Semua Produk
                                 </button>
                                     @foreach($categories as $key=>$cat)
 
-                                    <button class="btn" style="background:none;color:black;"data-filter=".{{$cat->id}}">
+                                    <button class="btn" style="background:none;color:rgb(0, 0, 0);"data-filter=".{{$cat->id}}">
                                         {{$cat->title}}
                                     </button>
                                     @endforeach
@@ -144,8 +137,8 @@
                                                 @php
                                                     $after_discount=($product->price-($product->price*$product->discount)/100);
                                                 @endphp
-                                                <span>${{number_format($after_discount,2)}}</span>
-                                                <del style="padding-left:4%;">${{number_format($product->price,2)}}</del>
+                                                <span>Rp{{number_format($after_discount,2)}}</span>
+                                                <del style="padding-left:4%;">Rp{{number_format($product->price,2)}}</del>
                                             </div>
                                         </div>
                                     </div>
@@ -201,7 +194,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2>Hot Item</h2>
+                    <h2>BestSeller</h2>
                 </div>
             </div>
         </div>
@@ -235,11 +228,11 @@
                             <div class="product-content">
                                 <h3><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
                                 <div class="product-price">
-                                    <span class="old">${{number_format($product->price,2)}}</span>
+                                    <span class="old">Rp{{number_format($product->price,2)}}</span>
                                     @php
                                     $after_discount=($product->price-($product->price*$product->discount)/100)
                                     @endphp
-                                    <span>${{number_format($after_discount,2)}}</span>
+                                    <span>Rp{{number_format($after_discount,2)}}</span>
                                 </div>
                             </div>
                         </div>
@@ -261,7 +254,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="shop-section-title">
-                            <h1>Barang Terbaru</h1>
+                            <h1>Produk Terbaru</h1>
                         </div>
                     </div>
                 </div>
@@ -287,7 +280,7 @@
                                 <div class="col-lg-6 col-md-6 col-12 no-padding">
                                     <div class="content">
                                         <h4 class="title"><a href="#">{{$product->title}}</a></h4>
-                                        <p class="price with-discount">${{number_format($product->discount,2)}}</p>
+                                        <p class="price with-discount">Rp{{number_format($product->discount,2)}}</p>
                                     </div>
                                 </div>
                                 </div>
@@ -302,39 +295,6 @@
     </div>
 </section>
 <!-- End Shop Home List  -->
-
-<!-- Start Shop Blog  -->
-<section class="shop-blog section">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="section-title">
-                    <h2>Dari Blog Kami</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            @if($posts)
-                @foreach($posts as $post)
-                    <div class="col-lg-4 col-md-6 col-12">
-                        <!-- Start Single Blog  -->
-                        <div class="shop-single-blog">
-                            <img src="{{$post->photo}}" alt="{{$post->photo}}">
-                            <div class="content">
-                                <p class="date">{{$post->created_at->format('d M , Y. D')}}</p>
-                                <a href="{{route('blog.detail',$post->slug)}}" class="title">{{$post->title}}</a>
-                                <a href="{{route('blog.detail',$post->slug)}}" class="more-btn">Lanjutkan Membaca</a>
-                            </div>
-                        </div>
-                        <!-- End Single Blog  -->
-                    </div>
-                @endforeach
-            @endif
-
-        </div>
-    </div>
-</section>
-<!-- End Shop Blog  -->
 
 <!-- Modal -->
 @if($product_lists)
@@ -474,7 +434,7 @@
 @push('styles')
     <style>
         /* Banner Sliding */
-        #Gslider .carousel-inner {
+        /* #Gslider .carousel-inner {
         background: #000000;
         color:black;
         }
@@ -485,7 +445,7 @@
         #Gslider .carousel-inner img{
             width: 100% !important;
             opacity: .8;
-        }
+        } */
 
         #Gslider .carousel-inner .carousel-caption {
         bottom: 60%;

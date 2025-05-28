@@ -1,6 +1,6 @@
 <div id="messages">
     <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-envelope fa-fw"></i>
+        <i><img src="{{ asset('image/asset -ujilevel/comments.png') }}" alt=""></i>
         <!-- Counter - Messages -->
         @if(count(Helper::messageList())>5)
             <span data-count="5" class="badge badge-danger badge-counter">5+</span>
@@ -13,7 +13,7 @@
     <!-- Dropdown - Messages -->
     <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
         <h6 class="dropdown-header">
-        Message Center
+          Pusat Pesan
         </h6>
         <div id="message-items">
             @foreach(Helper::messageList() as $message)

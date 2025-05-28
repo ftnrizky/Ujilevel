@@ -108,7 +108,7 @@
         <div class="card shadow mb-4">
           <!-- Card Header - Dropdown -->
           <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Users</h6>
+            <h6 class="m-0 font-weight-bold text-primary">User</h6>
           </div>
           <!-- Card Body -->
           <div class="card-body" style="overflow:hidden">
@@ -136,7 +136,7 @@
   {
       var data = google.visualization.arrayToDataTable(analytics);
       var options = {
-          title : 'Last 7 Days registered user'
+          title : '7 Hari Terakhir User Mendaftar',
       };
       var chart = new google.visualization.PieChart(document.getElementById('pie_chart'));
       chart.draw(data, options);
@@ -184,7 +184,7 @@
                 var myLineChart = new Chart(ctx, {
                   type: 'line',
                   data: {
-                    labels: data_keys, // ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    labels: data_keys, // ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                     datasets: [{
                       label: "Earnings",
                       lineTension: 0.3,

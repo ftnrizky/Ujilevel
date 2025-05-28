@@ -3,7 +3,7 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Tambah Product</h5>
+    <h5 class="card-header">Tambah Produk</h5>
     <div class="card-body">
       <form method="post" action="{{route('product.store')}}">
         {{csrf_field()}}
@@ -77,10 +77,13 @@
           <label for="size">Ukuran</label>
           <select name="size[]" class="form-control selectpicker"  multiple data-live-search="true">
               <option value="">--Masukan Ukuran nya--</option>
-              <option value="S">Small (S)</option>
-              <option value="M">Medium (M)</option>
-              <option value="L">Large (L)</option>
-              <option value="XL">Extra Large (XL)</option>
+              <option value="30">30</option>
+              <option value="32">32</option>
+              <option value="34">34</option>
+              <option value="36">36</option>
+              <option value="L">40</option>
+              <option value="L">42</option>
+              <option value="XL">45</option>
           </select>
         </div>
 

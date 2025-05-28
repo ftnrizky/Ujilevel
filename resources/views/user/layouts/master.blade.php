@@ -9,7 +9,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    @include('user.layouts.sidebar')
+    {{-- @include('user.layouts.sidebar') --}}
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->

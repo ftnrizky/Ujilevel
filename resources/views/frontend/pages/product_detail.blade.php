@@ -84,7 +84,7 @@
                                                 @php 
                                                     $after_discount=($product_detail->price-(($product_detail->price*$product_detail->discount)/100));
                                                 @endphp
-												<p class="price"><span class="discount">${{number_format($after_discount,2)}}</span><s>${{number_format($product_detail->price,2)}}</s> </p>
+												<p class="price"><span class="discount">Rp{{number_format($after_discount,2)}}</span><s>Rp{{number_format($product_detail->price,2)}}</s> </p>
 												<p class="description">{!!($product_detail->summary)!!}</p>
 											</div>
 											<!--/ End Description -->
@@ -102,16 +102,16 @@
 											<!-- Size -->
 											@if($product_detail->size)
 												<div class="size mt-4">
-													<h4>Size</h4>
-													<ul>
+													<h4>Ukuran</h4>
+													<select name="size" class="form-control" required>
+														<option value="">Pilih Ukuran</option>
 														@php 
 															$sizes=explode(',',$product_detail->size);
-															// dd($sizes);
 														@endphp
 														@foreach($sizes as $size)
-														<li><a href="#" class="one">{{$size}}</a></li>
+															<option value="{{$size}}">{{$size}}</option>
 														@endforeach
-													</ul>
+													</select>
 												</div>
 											@endif
 											<!--/ End Size -->
@@ -139,7 +139,7 @@
 													<!--/ End Input Order -->
 													</div>
 													<div class="add-to-cart mt-4">
-														<button type="submit" class="btn">Add to cart</button>
+														<button type="submit" class="btn">Tambah Keranjang</button>
 														<a href="{{route('add-to-wishlist',$product_detail->slug)}}" class="btn min"><i class="ti-heart"></i></a>
 													</div>
 												</form>
@@ -337,7 +337,7 @@
                                                 <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
                                             </div>
                                             <div class="product-action-2">
-                                                <a title="Add to cart" href="#">Add to cart</a>
+                                                <a title="Add to cart" href="#">Tambah keranjang</a>
                                             </div>
                                         </div>
                                     </div>

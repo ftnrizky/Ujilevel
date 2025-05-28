@@ -9,8 +9,8 @@
          </div>
      </div>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary float-left">Shipping List</h6>
-      <a href="{{route('shipping.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add Shipping</a>
+      <h6 class="m-0 font-weight-bold text-primary float-left"> List Pengiriman </h6>
+      <a href="{{route('shipping.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Tambah Pengiriman</a>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -20,18 +20,18 @@
             <tr>
               <th>S.N.</th>
               <th>Title</th>
-              <th>Price</th>
+              <th>harga</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th>S.N.</th>
               <th>Title</th>
-              <th>Price</th>
+              <th>Harga</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>Aksi</th>
               </tr>
           </tfoot>
           <tbody>
@@ -39,7 +39,7 @@
                 <tr>
                     <td>{{$shipping->id}}</td>
                     <td>{{$shipping->type}}</td>
-                    <td>${{$shipping->price}}</td>
+                    <td>Rp{{$shipping->price}}</td>
                     <td>
                         @if($shipping->status=='active')
                             <span class="badge badge-success">{{$shipping->status}}</span>
@@ -81,7 +81,7 @@
         </table>
         <span style="float:right">{{$shippings->links()}}</span>
         @else
-          <h6 class="text-center">No shippings found!!! Please create shipping</h6>
+          <h6 class="text-center">Tidak ada pengiriman yang ditemukan!!! Harap buat pengiriman</h6>
         @endif
       </div>
     </div>

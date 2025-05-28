@@ -13,28 +13,25 @@ class CreateWishlistsTable extends Migration
      */
     public function up()
     {
-        Schema::create('wishlists', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('cart_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->float('price');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('order_id')->nullable();
+            $table->decimal('price', 8, 2);
             $table->integer('quantity');
-            $table->float('amount');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
-            $table->foreign('cart_id')->references('id')->on('carts')->onDelete('SET NULL');
+            $table->decimal('amount', 10, 2);
+            $table->enum('status', ['new', 'progress', 'delivered', 'cancel'])->default('new');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('SET NULL');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('wishlists');
+        Schema::dropIfExists('carts');
     }
 }
