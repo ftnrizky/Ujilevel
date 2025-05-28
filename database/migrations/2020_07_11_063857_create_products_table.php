@@ -33,6 +33,8 @@ class CreateProductsTable extends Migration
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('SET NULL');
             $table->foreign('cat_id')->references('id')->on('categories')->onDelete('SET NULL');
             $table->foreign('child_cat_id')->references('id')->on('categories')->onDelete('SET NULL');
+            $table->boolean('is_preOrder')->default(false);
+            $table->integer('estimated_days')->nullable();
             $table->timestamps();
         });
     }

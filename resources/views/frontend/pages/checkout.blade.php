@@ -209,7 +209,7 @@
                                             </li>
                                             
                                             @if(session('coupon'))
-                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">Diskon<span>Rp{{number_format(session('coupon')['value'],2)}}</span></li>
+                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">Kamu Simpan<span>${{number_format(session('coupon')['value'],2)}}</span></li>
                                             @endif
                                             @php
                                                 $total_amount=Helper::totalCartPrice();
@@ -235,6 +235,9 @@
                                             <li class="cart-item" data-quantity="{{ $cart->quantity }}" data-stock="{{ $cart->product->stock }}" data-name="{{ $cart->product->title }}">
                                                 {{ $cart->product->title }} 
                                                 <span>({{ $cart->quantity }} x Rp{{ number_format($cart->price,2) }})</span>
+                                                @if($cart->product->is_preOrder)
+                                                <p class="text-danger text-md ">Produk akan selesai dan dikirim dalam {{$cart->product->estimated_days}} Hari</p>
+                                                @endif
                                                 @if($cart->product->stock < 5)
                                                     <small class="text-danger d-block">
                                                         Sisa stok: {{ $cart->product->stock }}
@@ -285,7 +288,7 @@
                                                        accept=".jpg,.jpeg,.png,.pdf"
                                                        class="form-control @error('bukti_pembayaran') is-invalid @enderror"
                                                        required>
-                                                <small class="text-muted">Format yang diizinkan: JPG, JPEG, PNG, PDF (Max: 2MB)</small>
+                                                <small class="text-muted">Format yang diizinkan: JPG, JPEG, PNG, PDF (Max: 10MB)</small>
                                                 @error('bukti_pembayaran')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror

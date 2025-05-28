@@ -2,84 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profile;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
     /**
-     * Tampilkan form edit profil user.
+     * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
-        $user = $request->user();
-        $profile = Profile::where('user_id', $user->id)->first();
-
-        return view('profile.edit', compact('user', 'profile'));
+        return view('profile.edit', [
+            'user' => $request->user(),
+        ]);
     }
 
     /**
-     * Simpan/update informasi profil user.
+     * Update the user's profile information.
      */
-    public function update(Request $request)
+    public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->validate([
-            'username' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:20',
-            'gender' => 'nullable|string|in:Laki - Laki,Perempuan',
-            'province' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'district' => 'nullable|string|max:255',
-            'postal_code' => 'nullable|string|max:10',
-            'profile_image' => 'nullable|image|max:2048',
-        ]);
+        $request->user()->fill($request->validated());
 
-        $data = $request->only([
-            'username', 'phone', 'gender', 'province', 'city', 'district', 'postal_code'
-        ]);
-
-        $data['user_id'] = Auth::id();
-
-        // Simpan gambar jika ada
-        if ($request->hasFile('profile_image')) {
-            $image = $request->file('profile_image');
-            $path = $image->store('profile_images', 'public');
-            $data['profile_image'] = $path;
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
         }
 
-        // Simpan atau update data profil
-        Profile::updateOrCreate(
-            ['user_id' => Auth::id()],
-            $data
-        );
+        $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('success', 'Profil berhasil diperbarui.');
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
-     * Hapus akun user (dan profil jika perlu).
+     * Delete the user's account.
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
 
         $user = $request->user();
-
-        // Hapus profil user juga
-        $profile = Profile::where('user_id', $user->id)->first();
-        if ($profile) {
-            // Hapus file gambar jika ada
-            if ($profile->profile_image) {
-                Storage::disk('public')->delete($profile->profile_image);
-            }
-            $profile->delete();
-        }
 
         Auth::logout();
 
@@ -91,4 +58,3 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 }
-// End of ProfileController.php

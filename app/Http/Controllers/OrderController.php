@@ -17,7 +17,18 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function store(Request $request)
+        /**
+         * Display a listing of orders.
+         *
+         * @return \Illuminate\Http\Response
+         */
+        public function index()
+        {
+            $orders = Order::orderBy('id', 'DESC')->paginate(10);
+            return view('backend.order.index')->with('orders', $orders);
+        }
+
+         public function store(Request $request)
     {
         $this->validate($request, [
             'first_name' => 'string|required',
@@ -28,62 +39,47 @@ class OrderController extends Controller
             'phone' => 'numeric|required',
             'post_code' => 'string|nullable',
             'email' => 'string|required',
-            'bukti_pembayaran' => 'required|file|mimes:jpeg,jpg,png|max:5120',
-            'product_photo' => 'required|file|mimes:jpeg,jpg,png|max:5120' // Add this line
+            'bukti_pembayaran' => 'required|file|mimes:jpeg,jpg,png|max:5120'
         ]);
-    
+
         $userId = auth()->user()->id;
         $carts = Cart::where('user_id', $userId)->whereNull('order_id')->get();
-    
+
         if ($carts->isEmpty()) {
             return back()->with('error', 'Cart is Empty!');
         }
-    
+
         DB::beginTransaction();
         try {
             $order = new Order();
             $order_data = $request->all();
-    
+
             $order_data['order_number'] = 'ORD-' . strtoupper(Str::random(10));
             $order_data['user_id'] = $userId;
-    
-            // Handle bukti pembayaran upload
+
             if ($request->hasFile('bukti_pembayaran')) {
                 $file = $request->file('bukti_pembayaran');
-                $filename = time() . '_payment_' . $file->getClientOriginalName();
+                $filename = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('bukti_pembayaran', $filename, 'public');
                 $order_data['bukti_pembayaran'] = $path;
             }
-    
-            // Handle product photo upload
-            if ($request->hasFile('product_photo')) {
-                $productFile = $request->file('product_photo');
-                $productFilename = time() . '_product_' . $productFile->getClientOriginalName();
-                $productPath = $productFile->storeAs('product_photo', $productFilename, 'public');
-                $order_data['product_photo'] = $productPath;
+
+            if (!in_array($file->getClientOriginalExtension(),  ['jpg', 'jpeg', 'png'])) {
+                return back()->with('error', 'File harus berformat JPG, JPEG, atau PNG');
             }
-    
-            // Validate file types and sizes
-            foreach (['bukti_pembayaran', 'product_photo'] as $fileType) {
-                if ($request->hasFile($fileType)) {
-                    $file = $request->file($fileType);
-                    if (!in_array($file->getClientOriginalExtension(), ['jpg', 'jpeg', 'png'])) {
-                        return back()->with('error', 'File ' . $fileType . ' harus berformat JPG, JPEG, atau PNG');
-                    }
-                    if ($file->getSize() > 5120 * 1024) {
-                        return back()->with('error', 'Ukuran file ' . $fileType . ' maksimal 5MB');
-                    }
-                }
+
+            if ($file->getSize() > 5120 * 1024) {
+                return back()->with('error', 'Ukuran file maksimal 5MB');
             }
-    
+
             $order_data['sub_total'] = Helper::totalCartPrice();
             $order_data['quantity'] = Helper::cartCount();
             $order_data['status'] = "new";
-    
+
             $order->fill($order_data);
             $order->save();
-    
-            // Rest of your existing code...
+
+            // Cek dan kurangi stok produk
             foreach ($carts as $cart) {
                 $product = $cart->product;
                 if (!$product || $product->stock < $cart->quantity) {
@@ -93,11 +89,12 @@ class OrderController extends Controller
                 $product->stock -= $cart->quantity;
                 $product->save();
             }
-    
+
+            // Update order_id di cart
             Cart::where('user_id', $userId)
                 ->whereNull('order_id')
                 ->update(['order_id' => $order->id]);
-    
+
             DB::commit();
             session()->forget(['cart', 'coupon']);
             return redirect()->route('home')->with('success', 'Order placed successfully');
@@ -106,7 +103,7 @@ class OrderController extends Controller
             return back()->with('error', 'Gagal membuat pesanan: ' . $e->getMessage());
         }
     }
-    
+
 
     public function show($id)
     {

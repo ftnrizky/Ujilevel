@@ -19,7 +19,6 @@ use App\Http\Controllers\HomeController;
 use \UniSharp\LaravelFilemanager\Lfm;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\PembayaranController;
-use App\Http\Controllers\ProfileController;
 
 
 // CACHE CLEAR ROUTE
@@ -111,10 +110,8 @@ Route::post('/blog/filter', [FrontendController::class, 'blogFilter'])->name('bl
 Route::get('blog-cat/{slug}', [FrontendController::class, 'blogByCategory'])->name('blog.category');
 Route::get('blog-tag/{slug}', [FrontendController::class, 'blogByTag'])->name('blog.tag');
 
-// Profile
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// NewsLetter
+Route::post('/subscribe', [FrontendController::class, 'subscribe'])->name('subscribe');
 
 // Product Review
 Route::resource('/review', 'ProductReviewController');

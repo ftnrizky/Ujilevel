@@ -31,6 +31,8 @@ class CreateOrdersTable extends Migration
             $table->string('post_code')->nullable();
             $table->text('address1');
             $table->text('address2')->nullable();
+            $table->string('preorder_status')->nullable(); 
+            $table->date('estimated_delivery')->nullable(); 
             $table->timestamps();
         });
     }

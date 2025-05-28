@@ -1028,27 +1028,25 @@
 
                 <div class="col-lg-2 col-md-3 col-6">
                     <div class="right-bar d-flex justify-content-end align-items-center">
-                        @auth
-                            <!-- Wishlist (only show when logged in) -->
-                            <div class="sinlge-bar shopping me-2">
-                                <a href="{{ route('wishlist') }}" class="single-icon">
-                                    <i class="fa-regular fa-heart"></i>
-                                    @if (Helper::wishlistCount() > 0)
-                                        <span class="total-count">{{ Helper::wishlistCount() }}</span>
-                                    @endif
-                                </a>
-                            </div>
+                        <!-- Wishlist -->
+                        <div class="sinlge-bar shopping me-2">
+                            <a href="{{ route('wishlist') }}" class="single-icon">
+                                <i class="fa-regular fa-heart"></i>
+                                @if (Helper::wishlistCount() > 0)
+                                    <span class="total-count">{{ Helper::wishlistCount() }}</span>
+                                @endif
+                            </a>
+                        </div>
 
-                            <!-- Cart (only show when logged in) -->
-                            <div class="sinlge-bar shopping me-2">
-                                <a href="{{ route('cart') }}" class="single-icon">
-                                    <i class="ti-bag"></i>
-                                    @if (Helper::cartCount() > 0)
-                                        <span class="total-count">{{ Helper::cartCount() }}</span>
-                                    @endif
-                                </a>
-                            </div>
-                        @endauth
+                        <!-- Cart -->
+                        <div class="sinlge-bar shopping me-2">
+                            <a href="{{ route('cart') }}" class="single-icon">
+                                <i class="ti-bag"></i>
+                                @if (Helper::cartCount() > 0)
+                                    <span class="total-count">{{ Helper::cartCount() }}</span>
+                                @endif
+                            </a>
+                        </div>
 
                         <!-- Account Dropdown -->
                         @auth
@@ -1060,13 +1058,13 @@
                                 <div id="accountDropdown" class="account-dropdown"
                                     style="display: none; position: absolute; right: 0; background: white; box-shadow: 0px 2px 10px rgba(0,0,0,0.15); min-width: 150px; z-index: 100;">
                                     <ul class="list-unstyled m-0 p-2">
-                                        <li><a href="{{ route('order.track') }}" class="dropdown-item">Track Order</a></li>
+                                        {{-- <li><a href="{{ route('order.track') }}" class="dropdown-item">Track Order</a></li> --}}
                                         @if (Auth::user()->role == 'admin')
                                             <li><a href="{{ route('admin') }}" target="_blank"
                                                     class="dropdown-item">Dashboard</a></li>
                                         @else
                                             <li><a href="{{ route('user') }}" target="_blank"
-                                                    class="dropdown-item">Profile</a></li>
+                                                    class="dropdown-item">Login</a></li>
                                         @endif
                                         <li>
                                             <hr class="dropdown-divider">
@@ -1112,8 +1110,8 @@
                                                     href="{{ route('home') }}">Beranda</a></li>
                                             <li class="{{ Request::path() == 'about-us' ? 'active' : '' }}"><a
                                                     href="{{ route('about-us') }}">Tentang Kami</a></li>
-                                            <li class="{{ Request::path() == 'chatwithadmin' ? 'active' : '' }}"><a
-                                                    href="">Chat With Admin</a></li>
+                                            <li class="{{ Request::path() == 'about-us' ? 'active' : '' }}"><a
+                                                    href="{{ route('about-us') }}">Chat With Admin</a></li>
                                             <li class="@if (Request::path() == 'product-grids' || Request::path() == 'product-lists') active @endif"><a
                                                     href="{{ route('product-grids') }}">Produk</a></li>
                                             {{ Helper::getHeaderCategory() }}

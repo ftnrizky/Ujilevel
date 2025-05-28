@@ -10,7 +10,6 @@ class Order extends Model
         'order_number',
         'sub_total',
         'quantity',
-        'product_photo',
         'delivery_charge',
         'status',
         'total_amount',

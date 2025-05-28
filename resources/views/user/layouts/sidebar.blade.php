@@ -483,7 +483,7 @@
     <a class="nav-link" href="{{ route('user') }}">
         <i><img src="{{ asset('image/asset -ujilevel/layout.png') }}"
           alt="" /></i>
-        <span>Akun Saya</span></a>
+        <span>Dashboard</span></a>
 </li>
 
 <!--Orders -->

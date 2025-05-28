@@ -21,7 +21,6 @@ class ProductController extends Controller
     public function productByCategory(Request $request, $slug)
     {
         $category = Category::getProductByCat($slug);
-        
         // if(!$category) {
         //     return redirect()->back()->with('error', 'Kategori tidak ada');
         // }
@@ -29,13 +28,13 @@ class ProductController extends Controller
         $products = $category->products()->where('status', 'active');
 
         // Apply price filter if exists
-        if($request->price) {
+        if ($request->price) {
             $price = explode('-', $request->price);
             $products->whereBetween('price', $price);
         }
 
         // Apply sorting
-        if($request->sort) {
+        if ($request->sort) {
             $sort = explode('-', $request->sort);
             $products = $products->orderBy($sort[0], $sort[1]);
         } else {
@@ -44,9 +43,9 @@ class ProductController extends Controller
 
         $products = $products->paginate(12);
         $recent_products = Product::where('status', 'active')
-                                ->orderBy('id', 'DESC')
-                                ->limit(3)
-                                ->get();
+            ->orderBy('id', 'DESC')
+            ->limit(3)
+            ->get();
 
         return view('frontend.pages.product-grids', [
             'products' => $products,
@@ -58,21 +57,21 @@ class ProductController extends Controller
     public function productBySubCategory(Request $request, $slug, $sub_slug)
     {
         $category = Category::getProductBySubCat($sub_slug);
-        
-        if(!$category) {
+
+        if (!$category) {
             return redirect()->back()->with('error', 'Subcategory not found');
         }
 
         $products = $category->sub_products()->where('status', 'active');
 
         // Apply price filter if exists
-        if($request->price) {
+        if ($request->price) {
             $price = explode('-', $request->price);
             $products->whereBetween('price', $price);
         }
 
         // Apply sorting
-        if($request->sort) {
+        if ($request->sort) {
             $sort = explode('-', $request->sort);
             $products = $products->orderBy($sort[0], $sort[1]);
         } else {
@@ -81,9 +80,9 @@ class ProductController extends Controller
 
         $products = $products->paginate(12);
         $recent_products = Product::where('status', 'active')
-                                ->orderBy('id', 'DESC')
-                                ->limit(3)
-                                ->get();
+            ->orderBy('id', 'DESC')
+            ->limit(3)
+            ->get();
 
         return view('frontend.pages.product-grids', [
             'products' => $products,
@@ -117,11 +116,14 @@ class ProductController extends Controller
             'condition' => 'required|in:default,new,hot',
             'price' => 'required|numeric',
             'discount' => 'nullable|numeric',
+            'is_preOrder' => 'nullable',
+            'estimated_days' => 'nullable|integer|min:1|required_if:is_preOrder,1',
         ]);
 
         $slug = generateUniqueSlug($request->title, Product::class);
         $validatedData['slug'] = $slug;
         $validatedData['is_featured'] = $request->input('is_featured', 0);
+        $validatedData['is_preOrder'] = $request->input('is_preOrder', 0);
 
         if ($request->has('size')) {
             $validatedData['size'] = implode(',', $request->input('size'));
@@ -170,9 +172,12 @@ class ProductController extends Controller
             'condition' => 'required|in:default,new,hot',
             'price' => 'required|numeric',
             'discount' => 'nullable|numeric',
+            'is_preOrder' => 'nullable',
+            'estimated_days' => 'nullable|integer|min:1|required_if:is_preOrder,1',
         ]);
 
         $validatedData['is_featured'] = $request->input('is_featured', 0);
+        $validatedData['is_preOrder'] = $request->input('is_preOrder', 0);
 
         if ($request->has('size')) {
             $validatedData['size'] = implode(',', $request->input('size'));

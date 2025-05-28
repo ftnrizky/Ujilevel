@@ -18,19 +18,12 @@
 									$settings = collect(); // kosongkan supaya tidak error
 								}
 							@endphp
-							<p class="text">
-								@foreach($settings as $data)
-									{{ $data->short_des ?? 'Deskripsi belum tersedia.' }}
-								@endforeach
-							</p>
+							<p class="text">{{ $setting->short_des ?? 'Deskripsi belum tersedia.' }}</p>
 							<p class="call">
 								Ada pertanyaan? Hubungi kami 24/jam
-								<span>
-									@foreach($settings as $data)
-										<a href="tel:{{ $data->phone }}">{{ $data->phone }}</a>
-									@endforeach
-								</span>
-							</p>		</div>
+								<span><a href="tel:{{ $setting->phone ?? '08123456789' }}">{{ $setting->phone ?? '08123456789' }}</a></span>
+							</p>
+						</div>
 						<!-- End Single Widget -->
 					</div>
 					<div class="col-lg-2 col-md-6 col-12">

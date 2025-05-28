@@ -30,6 +30,8 @@
               <th>Stok</th>
               <th>Foto</th>
               <th>Status</th>
+              <th>pre-order</th>
+              <th>estimated_days (pre order)</th>
               <th>Tindakan</th>
             </tr>
           </thead>
@@ -47,6 +49,8 @@
               <th>Stok</th>
               <th>Foto</th>
               <th>Status</th>
+              <th>pre-order</th>
+              <th>estimated_days (pre order)</th>
               <th>Tindakan</th>
             </tr>
           </tfoot>
@@ -98,6 +102,20 @@
                         @endif
                     </td>
                     <td>
+                    @if($product->is_preOrder==true)
+                            <span class="badge badge-primary">true</span>
+                        @else
+                            <span class="badge badge-danger">false</span>
+                        @endif  
+                    </td>
+                    <td>
+                      @if($product->estimated_days)
+                      {{$product->estimated_days}}
+                      @else
+                      -
+                      @endif
+                    </td>
+                    <td>
                         <a href="{{route('product.edit',$product->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
                     <form method="POST" action="{{route('product.destroy',[$product->id])}}">
                       @csrf
@@ -147,7 +165,7 @@
   <script>
 
       $('#product-dataTable').DataTable( {
-        "scrollX": false
+        "scrollX": false,
             "columnDefs":[
                 {
                     "orderable":false,
