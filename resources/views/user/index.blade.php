@@ -1,242 +1,700 @@
-@extends('user.layouts.master')
+@extends('frontend.layouts.master')
+@section('title', 'Stret Steredirs || Profile')
 
 @section('main-content')
-<div class="container-fluid">
-    @include('user.layouts.notification')
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">
-          Haiiii  {{ Auth::user()->name ?? Auth::user()->email }}
-      </h1>
-  </div>
-  
+<style>
 
-    <!-- Content Row -->
+  .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+  }
 
-    <div class="row">
-      @php
-          $orders=DB::table('orders')->where('user_id',auth()->user()->id)->paginate(10);
-      @endphp
-      <!-- Order -->
-      <div class="col-xl-12 col-lg-12">
-        <table class="table table-bordered" id="order-dataTable" width="100%" cellspacing="0">
-          <thead>
-            <tr>
-              <th>S.N.</th>
-              <th>Nomor Pesanan</th>
-              <th>Nama</th>
-              <th>Email</th>
-              <th>Jumlah</th>
-              <th>Jumlah Total</th>
-              <th>Status</th>
-              <th>Tindakan</th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <th>S.N.</th>
-              <th>Nomor Pesanan</th>
-              <th>Nama</th>
-              <th>Email</th>
-              <th>Jumlah</th>
-              <th>Jumlah Total</th>
-              <th>Status</th>
-              <th>Tindakan</th>
-              </tr>
-          </tfoot>
-          <tbody>
-            @if(count($orders)>0)
-              @foreach($orders as $order)   
-                <tr>
-                    <td>{{$order->id}}</td>
-                    <td>{{$order->order_number}}</td>
-                    <td>{{$order->first_name}} {{$order->last_name}}</td>
-                    <td>{{$order->email}}</td>
-                    <td>{{$order->quantity}}</td>
-                    <td>${{number_format($order->total_amount,2)}}</td>
-                    <td>
-                        @if($order->status=='new')
-                          <span class="badge badge-primary">{{$order->status}}</span>
-                        @elseif($order->status=='process')
-                          <span class="badge badge-warning">{{$order->status}}</span>
-                        @elseif($order->status=='delivered')
-                          <span class="badge badge-success">{{$order->status}}</span>
-                        @else
-                          <span class="badge badge-danger">{{$order->status}}</span>
-                        @endif
-                    </td>
-                    <td>
-                        <a href="{{route('user.order.show',$order->id)}}" class="btn btn-warning btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
-                        <form method="POST" action="{{route('user.order.delete',[$order->id])}}">
-                          @csrf 
-                          @method('delete')
-                              <button class="btn btn-danger btn-sm dltBtn" data-id={{$order->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
-                        </form>
-                    </td>
-                </tr>  
-              @endforeach
-              @else
-                <td colspan="8" class="text-center"><h4 class="my-4">You have no order yet!! Please order some products</h4></td>
-              @endif
-          </tbody>
-        </table>
+  .profile-wrapper {
+      display: flex;
+      gap: 30px;
+      min-height: calc(100vh - 40px);
+      animation: fadeInUp 0.8s ease-out;
+  }
 
-        {{$orders->links()}}
-      </div>
+  @keyframes fadeInUp {
+      from {
+          opacity: 0;
+          transform: translateY(30px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+  /* Enhanced Sidebar */
+  .sidebar {
+      width: 280px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+  }
+
+  .sidebar:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  }
+
+  .back-btn {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      cursor: pointer;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+  }
+
+  .back-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+  }
+
+  .back-btn:hover {
+      transform: translateX(-5px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(238, 90, 90, 0.4);
+  }
+
+  .back-btn:hover::before {
+      left: 100%;
+  }
+
+  .back-btn svg {
+      width: 24px;
+      height: 24px;
+  }
+
+  /* Enhanced Menu Items */
+  .sidebar ul {
+      list-style: none;
+      width: 100%;
+  }
+
+  .sidebar li {
+      margin: 15px 0;
+      border-radius: 15px;
+      overflow: hidden;
+      transform: translateX(0);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar li a {
+      display: flex;
+      align-items: center;
+      padding: 18px 20px;
+      text-decoration: none;
+      color: #4a5568;
+      font-weight: 500;
+      font-size: 16px;
+      background: rgba(247, 250, 252, 0.8);
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar li a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      transform: scaleY(0);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar li:hover {
+      transform: translateX(8px);
+  }
+
+  .sidebar li:hover a {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      color: #667eea;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+  }
+
+  .sidebar li:hover a::before {
+      transform: scaleY(1);
+  }
+
+  .sidebar li span {
+      margin-right: 15px;
+      font-size: 20px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar li:hover span {
+      transform: scale(1.2) rotate(5deg);
+  }
+
+  /* Logout Button Special Styling */
+  .sidebar li:last-child a {
+      background: rgba(255, 75, 75, 0.1);
+      color: #e53e3e;
+      border: 1px solid rgba(255, 75, 75, 0.2);
+  }
+
+  .sidebar li:last-child:hover a {
+      background: rgba(255, 75, 75, 0.15);
+      box-shadow: 0 8px 25px rgba(229, 62, 62, 0.2);
+  }
+
+  /* Profile Container */
+  .profile-container {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: slideInRight 0.8s ease-out 0.2s both;
+  }
+
+  @keyframes slideInRight {
+      from {
+          opacity: 0;
+          transform: translateX(30px);
+      }
+      to {
+          opacity: 1;
+          transform: translateX(0);
+      }
+  }
+
+  .profile-header {
+      margin-bottom: 40px;
+      text-align: center;
+  }
+
+  .profile-header h2 {
+      font-size: 32px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+  }
+
+  .profile-header p {
+      font-size: 16px;
+      color: #718096;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+  }
+
+  /* Enhanced Form */
+  .profile-form {
+      display: grid;
+      gap: 25px;
+  }
+
+  .form-group {
+      display: grid;
+      gap: 8px;
+      animation: fadeInLeft 0.6s ease-out;
+  }
+
+  .form-group:nth-child(even) {
+      animation: fadeInRight 0.6s ease-out;
+  }
+
+  @keyframes fadeInLeft {
+      from {
+          opacity: 0;
+          transform: translateX(-20px);
+      }
+      to {
+          opacity: 1;
+          transform: translateX(0);
+      }
+  }
+
+  @keyframes fadeInRight {
+      from {
+          opacity: 0;
+          transform: translateX(20px);
+      }
+      to {
+          opacity: 1;
+          transform: translateX(0);
+      }
+  }
+
+  .form-group label {
+      font-size: 16px;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 5px;
+  }
+
+  .form-group input,
+  .form-group select {
+      padding: 15px 20px;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+      background: rgba(247, 250, 252, 0.8);
+      font-size: 16px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(5px);
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+  }
+
+  .form-group input:hover,
+  .form-group select:hover {
+      border-color: #cbd5e0;
+      transform: translateY(-1px);
+  }
+
+  /* Gender Radio Buttons */
+  .gender-options {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+  }
+
+  .gender-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 12px 20px;
+      border-radius: 12px;
+      background: rgba(247, 250, 252, 0.8);
+      border: 2px solid transparent;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .gender-option:hover {
+      background: rgba(102, 126, 234, 0.05);
+      border-color: #667eea;
+  }
+
+  .gender-option input[type="radio"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e0;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+  }
+
+  .gender-option input[type="radio"]:checked {
+      border-color: #667eea;
+      background: #667eea;
+  }
+
+  .gender-option input[type="radio"]:checked::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+  }
+
+  /* Address Fields */
+  .address-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+  }
+
+  /* Profile Image Section */
+  .profile-image-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 30px;
+      background: rgba(247, 250, 252, 0.5);
+      border-radius: 20px;
+      border: 2px dashed #cbd5e0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .profile-image-section:hover {
+      border-color: #667eea;
+      background: rgba(102, 126, 234, 0.05);
+  }
+
+  .profile-image-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+  }
+
+  .profile-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .profile-image-container:hover img {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .upload-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+  }
+
+  .upload-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+  }
+
+  .upload-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  }
+
+  .upload-btn:hover::before {
+      left: 100%;
+  }
+
+  /* Save Button */
+  .save-btn {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+      color: white;
+      border: none;
+      padding: 18px 40px;
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      margin-top: 30px;
+      justify-self: start;
+      min-width: 150px;
+  }
+
+  .save-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+  }
+
+  .save-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(238, 90, 90, 0.4);
+  }
+
+  .save-btn:hover::before {
+      left: 100%;
+  }
+
+  .save-btn:active {
+      transform: translateY(-1px) scale(0.98);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+      .profile-wrapper {
+          flex-direction: column;
+          gap: 20px;
+      }
+
+      .sidebar {
+          width: 100%;
+          position: static;
+      }
+
+      .sidebar ul {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 15px;
+      }
+  }
+
+  @media (max-width: 768px) {
+      .container {
+          padding: 0 15px;
+      }
+
+      .profile-container {
+          padding: 25px;
+      }
+
+      .profile-header h2 {
+          font-size: 28px;
+      }
+
+      .address-fields {
+          grid-template-columns: 1fr;
+      }
+
+      .gender-options {
+          flex-direction: column;
+          gap: 10px;
+      }
+
+      .sidebar ul {
+          grid-template-columns: 1fr;
+      }
+  }
+
+  @media (max-width: 480px) {
+      .profile-wrapper {
+          gap: 15px;
+      }
+
+      .profile-container {
+          padding: 20px;
+      }
+
+      .profile-header h2 {
+          font-size: 24px;
+      }
+
+      .save-btn {
+          width: 100%;
+          justify-self: stretch;
+      }
+  }
+
+  /* Loading Animation */
+  .loading {
+      opacity: 0.7;
+      pointer-events: none;
+  }
+
+  .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 2px solid #667eea;
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+  }
+</style>
+
+<div class="container">
+    <div class="profile-wrapper">
+        <!-- Enhanced Sidebar -->
+        <aside class="sidebar">
+            <a href="{{ url('user/home') }}" class="back-btn">
+                <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+            <ul>
+                <li>
+                    <a href="">
+                        <span>👤</span>
+                        Akun Saya
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span>📦</span>
+                        Pesanan Saya
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <span>🎟</span>
+                        Voucher Saya
+                    </a>
+                </li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            <span>🚪</span>
+                            {{ __('Log Out') }}
+                        </x-responsive-nav-link>
+                    </form>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Enhanced Profile Container -->
+        <main class="profile-container">
+            <div class="profile-header">
+                <h2>Profil Saya</h2>
+                <p>Kelola informasi profil Anda untuk mengontrol, melindungi, dan mengamankan akun</p>
+            </div>
+
+            <form action="" method="POST" enctype="multipart/form-data" class="profile-form">
+                @csrf
+                
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" value="{{ $profile->username ?? '' }}" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Nama Lengkap</label>
+                    <input type="text" id="name" name="name" value="{{ $profile->name ?? '' }}" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="{{ $profile->email ?? '' }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Nomor Telepon</label>
+                    <input type="text" id="phone" name="phone" value="{{ $profile->phone ?? '' }}" 
+                           placeholder="Masukan nomor dengan benar" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label>Jenis Kelamin</label>
+                    <div class="gender-options">
+                        <label class="gender-option">
+                            <input type="radio" name="gender" value="Laki - Laki"
+                                   {{ ($profile->gender ?? '') == 'Laki - Laki' ? 'checked' : '' }}>
+                            <span>Laki - Laki</span>
+                        </label>
+                        <label class="gender-option">
+                            <input type="radio" name="gender" value="Perempuan"
+                                   {{ ($profile->gender ?? '') == 'Perempuan' ? 'checked' : '' }}>
+                            <span>Perempuan</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Alamat</label>
+                    <div class="address-fields">
+                        <select name="province">
+                            <option>Pilih Provinsi</option>
+                        </select>
+                        <select name="city">
+                            <option>Pilih Kota</option>
+                        </select>
+                        <select name="district">
+                            <option>Pilih Kecamatan</option>
+                        </select>
+                        <input type="text" name="postal_code" value="{{ $profile->postal_code ?? '' }}" 
+                               placeholder="Kode Pos">
+                    </div>
+                </div>
+
+                <div class="profile-image-section">
+                    <div class="profile-image-container">
+                        <img src="{{ isset($profile) && $profile && $profile->profile_image ? asset('storage/' . $profile->profile_image) : asset('profile-placeholder.png') }}"
+                             alt="Foto Profil" id="profilePreview">
+                    </div>
+                    <input type="file" name="profile_image" class="upload-btn" accept="image/*" 
+                           onchange="previewImage(event)">
+                </div>
+
+                <button type="submit" class="save-btn">
+                    Simpan Perubahan
+                </button>
+            </form>
+        </main>
     </div>
+</div>
 
-  </div>
-@endsection
-
-@push('scripts')
-<script type="text/javascript">
-  const url = "{{route('product.order.income')}}";
-
-// Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#858796';
-
-function number_format(number, decimals, dec_point, thousands_sep) {
-  // *     example: number_format(1234.56, 2, ',', ' ');
-  // *     return: '1 234,56'
-  number = (number + '').replace(',', '').replace(' ', '');
-  var n = !isFinite(+number) ? 0 : +number,
-    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-    s = '',
-    toFixedFix = function(n, prec) {
-      var k = Math.pow(10, prec);
-      return '' + Math.round(n * k) / k;
-    };
-  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-  if (s[0].length > 3) {
-    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-  }
-  if ((s[1] || '').length < prec) {
-    s[1] = s[1] || '';
-    s[1] += new Array(prec - s[1].length + 1).join('0');
-  }
-  return s.join(dec);
-}
-
-// Area Chart Example
-var ctx = document.getElementById("myAreaChart");
-
-axios.get(url)
-            .then(function (response) {
-              const data_keys = Object.keys(response.data);
-              const data_values = Object.values(response.data);
-
-
-var myLineChart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: data_keys, //["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: [{
-      label: "Earnings",
-      lineTension: 0.3,
-      backgroundColor: "rgba(78, 115, 223, 0.05)",
-      borderColor: "rgba(78, 115, 223, 1)",
-      pointRadius: 3,
-      pointBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointBorderColor: "rgba(78, 115, 223, 1)",
-      pointHoverRadius: 3,
-      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-      pointHitRadius: 10,
-      pointBorderWidth: 2,
-      data: data_values, //[0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 44660],
-    }],
-  },
-  options: {
-    maintainAspectRatio: false,
-    layout: {
-      padding: {
-        left: 10,
-        right: 25,
-        top: 25,
-        bottom: 0
-      }
-    },
-    scales: {
-      xAxes: [{
-        time: {
-          unit: 'date'
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false
-        },
-        ticks: {
-          maxTicksLimit: 7
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const preview = document.getElementById('profilePreview');
+            preview.src = reader.result;
         }
-      }],
-      yAxes: [{
-        ticks: {
-          maxTicksLimit: 5,
-          padding: 10,
-          // Include a dollar sign in the ticks
-          callback: function(value, index, values) {
-            return '$' + number_format(value);
-          }
-        },
-        gridLines: {
-          color: "rgb(234, 236, 244)",
-          zeroLineColor: "rgb(234, 236, 244)",
-          drawBorder: false,
-          borderDash: [2],
-          zeroLineBorderDash: [2]
-        }
-      }],
-    },
-    legend: {
-      display: false
-    },
-    tooltips: {
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      titleMarginBottom: 10,
-      titleFontColor: '#6e707e',
-      titleFontSize: 14,
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: false,
-      intersect: false,
-      mode: 'index',
-      caretPadding: 10,
-      callbacks: {
-        label: function(tooltipItem, chart) {
-          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
-        }
-      }
+        reader.readAsDataURL(event.target.files[0]);
     }
-  }
-});
 
+    // Add form validation and loading states
+    document.querySelector('.profile-form').addEventListener('submit', function(e) {
+        const button = document.querySelector('.save-btn');
+        button.classList.add('loading');
+        button.textContent = 'Menyimpan...';
+    });
 
-
-
-
-
-
-
-
-
-
-            })
-            .catch(function (error) {
-            //   vm.answer = 'Error! Could not reach the API. ' + error
-            console.log(error)
+    // Add smooth scroll behavior
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
             });
+        });
+    });
+</script>
 
-
-
-
-
-  </script>
-@endpush
+@endsection

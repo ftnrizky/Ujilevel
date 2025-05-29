@@ -11,6 +11,7 @@ use App\Models\Cart;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 // use Auth;
 class Helper
@@ -147,8 +148,19 @@ class Helper
     public static function getAllProductFromWishlist($user_id = '')
     {
         if (Auth::check()) {
-            if ($user_id == "") $user_id = auth()->user()->id;
-            return Wishlist::with('product')->where('user_id', $user_id)->where('cart_id', null)->get();
+            if ($user_id == "") {
+                $user_id = auth()->user()->id;
+            }
+            
+            try {
+                return Wishlist::with('product')
+                    ->where('user_id', $user_id)
+                    ->whereNull('cart_id')
+                    ->get();
+            } catch (\Exception $e) {
+                \Log::error('Error getting wishlist products: ' . $e->getMessage());
+                return collect([]); // Return empty collection on error
+            }
         } else {
             return 0;
         }
@@ -164,10 +176,15 @@ class Helper
     }
 
     // Total price with shipping and coupon
+    public static function orderPrice($id, $user_id)
+    {
+        $order = Order::find($id);
+        return $order ? $order->cart_info->sum('price') : 0;
+    }
+
     public static function grandPrice($id, $user_id)
     {
         $order = Order::find($id);
-        dd($id);
         if ($order) {
             $shipping_price = (float)$order->shipping->price;
             $order_price = self::orderPrice($id, $user_id);

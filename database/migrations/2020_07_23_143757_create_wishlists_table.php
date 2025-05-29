@@ -34,4 +34,6 @@ class CreateWishlistsTable extends Migration
     {
         Schema::dropIfExists('carts');
     }
-}
+};
+
+//2020_07_23_143757_create_wishlists_table.php

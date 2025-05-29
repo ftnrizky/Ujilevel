@@ -622,8 +622,10 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        margin-left: auto; /* Push to right */
-        padding-right: 15px; /* Add some padding from right edge */
+        margin-left: auto;
+        /* Push to right */
+        padding-right: 15px;
+        /* Add some padding from right edge */
     }
 
     /* Common Button Styles */
@@ -678,7 +680,7 @@
         .auth-buttons {
             gap: 6px;
         }
-        
+
         .auth-btn {
             padding: 6px 12px;
             font-size: 13px;
@@ -691,11 +693,11 @@
         .header .right-bar .sinlge-bar.shopping {
             padding-right: 10px;
         }
-        
+
         .auth-buttons {
             gap: 4px;
         }
-        
+
         .auth-btn {
             padding: 5px 10px;
             font-size: 12px;
@@ -714,14 +716,14 @@
             background: white;
             padding: 8px;
             border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: none;
         }
-        
+
         .header .right-bar .sinlge-bar.shopping:hover .auth-buttons {
             display: flex;
         }
-        
+
         .auth-btn {
             width: 100%;
             min-width: 100px;
@@ -913,7 +915,7 @@
     /* Sticky Header States */
     .header.sticky .header-inner .nav li a {
         color: #000000;
-       
+
     }
 
     .header.sticky.v3 .header-inner .nav li a {
@@ -979,6 +981,101 @@
             transform: translateY(0);
         }
     }
+
+    /* Icon Container Styling */
+    .header-icons {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-left: auto;
+    }
+
+    /* Icon Styling */
+    .icon-btn {
+        position: relative;
+        color: #333;
+        font-size: 20px;
+        padding: 5px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+
+    .icon-btn:hover {
+        color: #E94B4B;
+        transform: translateY(-2px);
+    }
+
+    /* Badge Counter */
+    .badge-counter {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #E94B4B;
+        color: #fff;
+        font-size: 11px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Auth Buttons Container */
+    .auth-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: 20px;
+    }
+
+    /* Auth Button Styling */
+    .auth-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .auth-btn.login {
+        background: #E94B4B;
+        color: #fff;
+        border: 1px solid #E94B4B;
+    }
+
+    .auth-btn.register {
+        background: transparent;
+        color: #E94B4B;
+        border: 1px solid #E94B4B;
+    }
+
+    .auth-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(233, 75, 75, 0.2);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .header-icons {
+            gap: 10px;
+        }
+
+        .auth-buttons {
+            margin-left: 10px;
+            gap: 5px;
+        }
+
+        .auth-btn {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+    }
 </style>
 
 <header class="header shop">
@@ -1011,7 +1108,8 @@
                             <select id="category-select">
                                 <option value="">Semua Kategori</option>
                                 @foreach (Helper::getAllCategory() as $cat)
-                                    <option value="{{ $cat->id }}" {{ (request()->category == $cat->id) ? 'selected' : '' }}>
+                                    <option value="{{ $cat->id }}"
+                                        {{ request()->category == $cat->id ? 'selected' : '' }}>
                                         {{ $cat->title }}
                                     </option>
                                 @endforeach
@@ -1027,32 +1125,28 @@
                 </div>
 
                 <div class="col-lg-2 col-md-3 col-6">
-                    <div class="right-bar d-flex justify-content-end align-items-center">
-                        <!-- Wishlist -->
-                        <div class="sinlge-bar shopping me-2">
-                            <a href="{{ route('wishlist') }}" class="single-icon">
-                                <i class="fa-regular fa-heart"></i>
-                                @if (Helper::wishlistCount() > 0)
-                                    <span class="total-count">{{ Helper::wishlistCount() }}</span>
-                                @endif
-                            </a>
-                        </div>
+                    <div class="header-icons">
+                        <!-- Wishlist Icon -->
+                        <a href="{{ route('wishlist') }}" class="icon-btn">
+                            <i class="far fa-heart"></i>
+                            @if (Helper::wishlistCount() > 0)
+                                <span class="badge-counter">{{ Helper::wishlistCount() }}</span>
+                            @endif
+                        </a>
 
-                        <!-- Cart -->
-                        <div class="sinlge-bar shopping me-2">
-                            <a href="{{ route('cart') }}" class="single-icon">
-                                <i class="ti-bag"></i>
-                                @if (Helper::cartCount() > 0)
-                                    <span class="total-count">{{ Helper::cartCount() }}</span>
-                                @endif
-                            </a>
-                        </div>
+                        <!-- Cart Icon -->
+                        <a href="{{ route('cart') }}" class="icon-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            @if (Helper::cartCount() > 0)
+                                <span class="badge-counter">{{ Helper::cartCount() }}</span>
+                            @endif
+                        </a>
 
-                        <!-- Account Dropdown -->
+                        <!-- Auth / Account -->
                         @auth
-                            <!-- Show account icon and dropdown when logged in -->
-                            <div class="sinlge-bar shopping position-relative">
-                                <a href="javascript:void(0);" class="single-icon" id="accountDropdownToggle">
+                            <!-- Account Dropdown -->
+                            <div class="icon-btn position-relative">
+                                <a href="javascript:void(0);" id="accountDropdownToggle">
                                     <i class="fa-regular fa-user"></i>
                                 </a>
                                 <div id="accountDropdown" class="account-dropdown"
@@ -1064,7 +1158,7 @@
                                                     class="dropdown-item">Dashboard</a></li>
                                         @else
                                             <li><a href="{{ route('user') }}" target="_blank"
-                                                    class="dropdown-item">Login</a></li>
+                                                    class="dropdown-item">Profile</a></li>
                                         @endif
                                         <li>
                                             <hr class="dropdown-divider">
@@ -1075,21 +1169,21 @@
                                 </div>
                             </div>
                         @else
-                            <!-- Show login/register buttons when logged out -->
-                            <div class="sinlge-bar shopping">
-                                <div class="auth-buttons">
-                                    <a href="{{ route('login.form') }}" class="auth-btn login">
-                                        <i class="fas fa-sign-in-alt me-1"></i>Login
-                                    </a>
-                                    <a href="{{ route('register.form') }}" class="auth-btn register">
-                                        <i class="fas fa-user-plus me-1"></i>Register
-                                    </a>
-                                </div>
+                            <!-- Login / Register Buttons -->
+                            <div class="auth-buttons">
+                                <a href="{{ route('login.form') }}" class="auth-btn login">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <span>Login</span>
+                                </a>
+                                <a href="{{ route('register.form') }}" class="auth-btn register">
+                                    <i class="fas fa-user-plus"></i>
+                                    <span>Register</span>
+                                </a>
                             </div>
                         @endauth
-
                     </div>
                 </div>
+
 
             </div>
         </div>
@@ -1150,36 +1244,35 @@
 </script>
 <script>
     $(document).ready(function() {
-    // Tambahkan handler event change ke dropdown kategori
-    $('#category-select').on('change', function() {
-        const categoryId = $(this).val();
-        
-        // Jika kategori dipilih, redirect ke halaman kategori
-        if(categoryId) {
-            // Cari slug kategori dari tautan kategori yang sudah ada
-            let categorySlug = '';
-            
-            // Telusuri semua tautan kategori untuk menemukan yang cocok dengan ID
-            $('.categor-list a').each(function() {
-                const href = $(this).attr('href');
-                if(href.includes('product-cat/') && $(this).data('id') == categoryId) {
-                    categorySlug = href;
-                    return false; // Hentikan loop
-                }
-            });
-            
-            // Jika ditemukan, redirect ke halaman kategori
-            if(categorySlug) {
-                window.location.href = categorySlug;
-            } else {
-                // Fallback - buat URL dengan ID jika slug tidak ditemukan
-                window.location.href = '/shop?category=' + categoryId;
-            }
-        } else {
-            // Jika "Semua Kategori" dipilih, pergi ke halaman shop tanpa filter
-            window.location.href = '/shop';
-        }
-    });
-});
+        // Tambahkan handler event change ke dropdown kategori
+        $('#category-select').on('change', function() {
+            const categoryId = $(this).val();
 
+            // Jika kategori dipilih, redirect ke halaman kategori
+            if (categoryId) {
+                // Cari slug kategori dari tautan kategori yang sudah ada
+                let categorySlug = '';
+
+                // Telusuri semua tautan kategori untuk menemukan yang cocok dengan ID
+                $('.categor-list a').each(function() {
+                    const href = $(this).attr('href');
+                    if (href.includes('product-cat/') && $(this).data('id') == categoryId) {
+                        categorySlug = href;
+                        return false; // Hentikan loop
+                    }
+                });
+
+                // Jika ditemukan, redirect ke halaman kategori
+                if (categorySlug) {
+                    window.location.href = categorySlug;
+                } else {
+                    // Fallback - buat URL dengan ID jika slug tidak ditemukan
+                    window.location.href = '/shop?category=' + categoryId;
+                }
+            } else {
+                // Jika "Semua Kategori" dipilih, pergi ke halaman shop tanpa filter
+                window.location.href = '/shop';
+            }
+        });
+    });
 </script>

@@ -20,3 +20,4 @@ class Brand extends Model
         // return Product::where('cat_id',$id)->where('child_cat_id',null)->paginate(10);
     }
 }
+//
