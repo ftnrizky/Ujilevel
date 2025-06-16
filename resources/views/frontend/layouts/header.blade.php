@@ -40,13 +40,13 @@
     .header.shop .middle-inner {
         background: #ffffff;
         border-top: 1px solid #eee;
-        padding: 15px 0;
+        padding: 5px 0;
         position: relative;
     }
 
     .header.shop .header-inner {
         background: #e1e1da;
-        padding: 20px 0;
+       
     }
 
     /* ========== SEARCH BAR STYLES ========== */
@@ -319,7 +319,7 @@
 
     .header-inner .nav.main-menu li a {
         position: relative;
-        padding: 20px 0;
+        padding: 6px 0;
         font-size: 16px;
         color: #000000;
         font-weight: 500;
